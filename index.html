@@ -97,6 +97,25 @@ body{
   font-size:clamp(2.4rem, 5vw, 4.8rem);
   line-height:.98;
   letter-spacing:-.035em;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.title-wrap{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.title-dog{
+  height:42px;
+  width:auto;
+  transform:translateY(-2px);
 }
 .top-tabs{
   position:relative;
@@ -1839,7 +1858,10 @@ body{
 <div class="page">
   <section class="hero full-bleed">
     <div class="hero-inner">
-      <h1>🔺 TKE 🔺 Masters Pool 2026</h1>
+      <h1 class="title-wrap">
+      🔺 TKE 🔺 Masters Pool 2026
+      <img src="dog-middle-finger.gif" class="title-dog" alt="dog">
+    </h1>
     </div>
   </section>
 
