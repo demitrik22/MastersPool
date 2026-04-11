@@ -39,16 +39,8 @@ body{
   margin:0;
   padding:0;
 }
-.dashboard-shell{
-  width:min(1520px, calc(100vw - 40px));
-  margin:0 auto;
-}
 .full-bleed{
   width:100%;
-}
-.section-shell{
-  width:min(1520px, calc(100vw - 40px));
-  margin:0 auto;
 }
 .hero{
   position:relative;
@@ -425,24 +417,6 @@ body{
 .participant-golfers-table tbody tr:hover td{
   background:#f5f8f3;
 }
-.participant-golfers-table tbody tr.counting-live td{
-  background:#eaf7ea;
-}
-.participant-golfers-table tbody tr.counting-live:nth-child(even) td{
-  background:#e3f3e3;
-}
-.participant-golfers-table tbody tr.counting-penalty td{
-  background:#fdeaea;
-}
-.participant-golfers-table tbody tr.counting-penalty:nth-child(even) td{
-  background:#fbe1e1;
-}
-.participant-golfers-table tbody tr.counting-live:hover td{
-  background:#dff1df;
-}
-.participant-golfers-table tbody tr.counting-penalty:hover td{
-  background:#f7d6d6;
-}
 .participant-golfers-table td:first-child,
 .participant-golfers-table th:first-child{
   text-align:left;
@@ -647,23 +621,21 @@ body{
       <div class="rules-wrap">
         <div class="rule-card">
           <h3>How the Pool Works</h3>
-          <p>The page below is driven by the live Google Sheet feed for your pool. Participant totals update automatically from that source.</p>
           <ul>
             <li>Each participant drafts 8 golfers before the tournament begins.</li>
             <li>For each round, only the lowest 6 golfer scores count toward that participant's round total.</li>
-            <li>Only valid numeric non-zero daily scores are eligible for green counting highlights.</li>
-            <li>Penalty scores can still count and will highlight red.</li>
+            <li>Green highlight = counted valid score cell only.</li>
+            <li>Red highlight = counted penalty/cut cell only.</li>
+            <li>0 values are never eligible.</li>
           </ul>
         </div>
 
         <div class="rule-card">
-          <h3>Scoring, Cut Rules, and Winning</h3>
+          <h3>Scoring</h3>
           <ul>
-            <li>If a golfer is cut, disqualified, or withdraws, penalty logic applies based on status.</li>
-            <li>Missed-cut golfers can be represented with 82s in later rounds for tracking.</li>
-            <li>Round 1 through Round 4 participant scores are added together to reach the adjusted total.</li>
+            <li>Only valid numeric, non-zero completed round scores are green-eligible.</li>
+            <li>Missed-cut golfers can count as penalty values in later rounds and show red when counted.</li>
             <li>The leaderboard is ordered by the lowest adjusted total.</li>
-            <li>The participant with the lowest final adjusted total wins the pool.</li>
           </ul>
         </div>
       </div>
@@ -749,11 +721,6 @@ document.addEventListener('DOMContentLoaded', function () {
   function isPenaltyStatus(status) {
     const normalized = String(status || '').trim().toLowerCase();
     return normalized === 'missed cut' || normalized === 'mc' || normalized === 'cut' || normalized === 'withdrawn' || normalized === 'wd' || normalized === 'dq' || normalized === 'disqualified';
-  }
-
-  function isEligibleRoundScore(value) {
-    const num = parseNumber(value, null);
-    return Number.isFinite(num) && num > 0;
   }
 
   function isCompletedRoundStroke(value) {
@@ -948,24 +915,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function roundCellClass(participant, golfer, roundKey) {
     if (!isCountedInRound(participant, golfer, roundKey)) return '';
-
-    if (isPenaltyRound(golfer, roundKey)) {
-      return 'counting-penalty';
-    }
-
+    if (isPenaltyRound(golfer, roundKey)) return 'counting-penalty';
     return isCompletedRoundStroke(golfer[roundKey]) ? 'counting-live' : '';
-  }
-
-  function rowClass(participant, golfer) {
-    const anyPenalty = ['r1','r2','r3','r4'].some(function(roundKey) {
-      return isCountedInRound(participant, golfer, roundKey) && isPenaltyRound(golfer, roundKey);
-    });
-    const anyLive = ['r1','r2','r3','r4'].some(function(roundKey) {
-      return isCountedInRound(participant, golfer, roundKey) && !isPenaltyRound(golfer, roundKey) && isCompletedRoundStroke(golfer[roundKey]);
-    });
-    if (anyPenalty) return 'counting-penalty';
-    if (anyLive) return 'counting-live';
-    return '';
   }
 
   function roundCellValue(golfer, roundKey) {
@@ -1099,7 +1050,7 @@ document.addEventListener('DOMContentLoaded', function () {
             '<thead><tr><th>Golfer</th><th>Thru</th><th>R1</th><th>R2</th><th>R3</th><th>R4</th><th>Score</th><th>Total</th></tr></thead>' +
             '<tbody>' +
               p.golfers.map(function(g) {
-                return '<tr class="' + rowClass(p, g) + '">' +
+                return '<tr>' +
                   '<td>' + g.golfer_name + '</td>' +
                   '<td>' + formatThru(g.thru, g.status) + '</td>' +
                   '<td class="' + roundCellClass(p, g, 'r1') + '">' + roundCellValue(g, 'r1') + '</td>' +
