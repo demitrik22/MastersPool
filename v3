@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>TKE Masters Pool&nbsp;🔺 2026 🔺</title>
+<title>🔺 TKE 🔺 Masters Pool 2026</title>
 <style>
 :root{
   --green:#173b2c;
@@ -97,6 +97,25 @@ body{
   font-size:clamp(2.4rem, 5vw, 4.8rem);
   line-height:.98;
   letter-spacing:-.035em;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.title-wrap{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.title-dog{
+  height:42px;
+  width:auto;
+  transform:translateY(-2px);
 }
 .top-tabs{
   position:relative;
@@ -292,9 +311,6 @@ body{
   stroke-linejoin:round;
 }
 .dot{ stroke:#fff; stroke-width:1.4; }
-
-
-
 
 .leaderboard-wrap{padding:0 0 6px}
 
@@ -505,23 +521,10 @@ body{
   justify-content:center;
   align-items:center;
 }
-.place-1 td{
-  background:linear-gradient(90deg,#fffdf2,#ffe680) !important;
-  font-weight:700;
-  animation:firstPlacePulse 1.8s ease-in-out infinite;
-}
-.place-2 td{
-  background:linear-gradient(90deg,#ffffff,#d9d9d9) !important;
-  font-weight:700;
-}
-.place-3 td{
-  background:linear-gradient(90deg,#fff4ec,#cd7f32) !important;
-  color:#2b170d;
-  font-weight:700;
-}
 .place-1 td:first-child{border-left:4px solid #d4af37}
 .place-2 td:first-child{border-left:4px solid #c0c0c0}
 .place-3 td:first-child{border-left:4px solid #cd7f32}
+
 .section-title{
   display:flex;
   justify-content:space-between;
@@ -600,6 +603,8 @@ body{
   line-height:1;
   font-weight:700;
 }
+.scorebox .subvalue{display:block;margin-top:4px;font-size:.94rem;line-height:1;font-weight:700;color:rgba(255,255,255,.86)}
+
 .participant-meta{
   display:grid;
   grid-template-columns:repeat(4,1fr);
@@ -737,6 +742,24 @@ body{
 .participant-golfers-table tbody tr:hover td{
   background:#f5f8f3;
 }
+.participant-golfers-table tbody tr.counting-live td{
+  background:#eaf7ea;
+}
+.participant-golfers-table tbody tr.counting-live:nth-child(even) td{
+  background:#e3f3e3;
+}
+.participant-golfers-table tbody tr.counting-penalty td{
+  background:#fdeaea;
+}
+.participant-golfers-table tbody tr.counting-penalty:nth-child(even) td{
+  background:#fbe1e1;
+}
+.participant-golfers-table tbody tr.counting-live:hover td{
+  background:#dff1df;
+}
+.participant-golfers-table tbody tr.counting-penalty:hover td{
+  background:#f7d6d6;
+}
 .participant-golfers-table td:first-child,
 .participant-golfers-table th:first-child{
   text-align:left;
@@ -750,6 +773,18 @@ body{
 .participant-golfers-table td:not(:first-child),
 .participant-golfers-table th:not(:first-child){
   font-size:.83rem;
+}
+.participant-golfers-table td.counting-live{
+  background:#eaf7ea !important;
+}
+.participant-golfers-table td.counting-penalty{
+  background:#fdeaea !important;
+}
+.participant-golfers-table tbody tr:hover td.counting-live{
+  background:#dff1df !important;
+}
+.participant-golfers-table tbody tr:hover td.counting-penalty{
+  background:#f7d6d6 !important;
 }
 
 .refresh-note{
@@ -993,9 +1028,6 @@ body{
   }
 }
 
-
-
-/* Desktop rehaul: full-bleed Masters-style dashboard */
 @media (min-width:1025px){
   body{
     background:
@@ -1303,7 +1335,6 @@ body{
   }
 }
 
-
 @media (min-width:1025px){
   body{
     overflow-x:hidden;
@@ -1430,7 +1461,6 @@ body{
   }
 }
 
-
 .pool-trends-section,
 .section-title,
 #pool-view > .top-grid,
@@ -1455,7 +1485,7 @@ body{
   .page{padding:10px}
   .leaderboard-table th,.leaderboard-table td{padding:9px 4px;font-size:.8rem}
   .leaderboard-table th:first-child,.leaderboard-table td:first-child{width:30%}
-          .participant-meta{grid-template-columns:1fr 1fr}
+  .participant-meta{grid-template-columns:1fr 1fr}
   .golfer-stats{grid-template-columns:repeat(3,1fr)}
   .espn-wrap{padding:0 6px 10px}
 }
@@ -1501,6 +1531,7 @@ body{
     margin-left:auto;
   }
   .scorebox .value{font-size:1.55rem}
+  .scorebox .subvalue{display:block;margin-top:4px;font-size:.82rem;line-height:1;font-weight:700;color:rgba(255,255,255,.86)}
   .participant-table-wrap{
     padding:12px 10px 14px;
   }
@@ -1573,7 +1604,6 @@ body{
   }
 }
 
-
 /* Top nav button polish */
 .top-tabs{
   gap:12px;
@@ -1620,7 +1650,6 @@ body{
   }
 }
 
-
 /* Leaderboard cleanup */
 .leaderboard-card-clean{
   background:rgba(255,255,255,.92) !important;
@@ -1639,15 +1668,9 @@ body{
   border-bottom:1px solid rgba(16,42,31,.08) !important;
   color:#1f2a22;
 }
-.leaderboard-table tbody tr:nth-child(even) td,
-.place-1 td,
-.place-2 td,
-.place-3 td{
+.leaderboard-table tbody tr:nth-child(even) td{
   background:#fff !important;
 }
-.place-1 td:first-child{border-left:4px solid #d4af37}
-.place-2 td:first-child{border-left:4px solid #c0c0c0}
-.place-3 td:first-child{border-left:4px solid #cd7f32}
 .leaderboard-table td:first-child,
 .leaderboard-table th:first-child{
   text-align:center !important;
@@ -1669,7 +1692,6 @@ body{
   align-items:center;
 }
 
-
 /* final visual overrides */
 .hero,
 .top-tabs,
@@ -1682,12 +1704,6 @@ body{
 .espn-board{
   border:2px solid #000 !important;
 }
-
-.place-1 td{
-  animation:firstPlacePulse 1.8s ease-in-out infinite;
-}
-
-
 
 /* Simplified leaderboard */
 .top-tabs{
@@ -1790,25 +1806,39 @@ body{
   justify-content:center !important;
   align-items:center !important;
 }
-.place-1 td{
+
+.place-1 td,
+.place-2 td,
+.place-3 td{
+  background:transparent !important;
+}
+
+.place-1 td:first-child{
   background:linear-gradient(90deg,#fff8dc,#f4e19c) !important;
   font-weight:800 !important;
+  border-left:4px solid #d4af37 !important;
 }
-.place-1{
-  animation:firstPlacePulse 1.6s ease-in-out infinite !important;
-}
-.place-2 td{
+.place-2 td:first-child{
   background:linear-gradient(90deg,#f3f3f3,#dadada) !important;
   font-weight:700 !important;
+  border-left:4px solid #c0c0c0 !important;
 }
-.place-3 td{
+.place-3 td:first-child{
   background:linear-gradient(90deg,#f4e2d7,#dfa881) !important;
   font-weight:700 !important;
+  border-left:4px solid #cd7f32 !important;
 }
+
+.place-1 td:first-child .participant-link-inner{
+  animation:firstPlacePulse 1.6s ease-in-out infinite !important;
+  border-radius:999px;
+}
+
 @keyframes firstPlacePulse {
   0%,100% { box-shadow: inset 0 0 0 0 rgba(212,175,55,.0), 0 0 0 0 rgba(212,175,55,.40); }
   50% { box-shadow: inset 0 0 0 999px rgba(255,255,255,.03), 0 0 0 8px rgba(212,175,55,0); }
 }
+
 @media (max-width:700px){
   .top-grid{ width:calc(100vw - 14px) !important; }
   .leaderboard-table thead th,
@@ -1821,15 +1851,17 @@ body{
   .leaderboard-table th:last-child,
   .leaderboard-table td:last-child{ width:14% !important; }
 }
-
 </style>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 <div class="page">
   <section class="hero full-bleed">
     <div class="hero-inner">
-      <h1>TKE Masters Pool 🔺 2026 🔺</h1>
+      <h1 class="title-wrap">
+      🔺 TKE 🔺 Masters Pool 2026
+      <img src="dog-middle-finger.gif" class="title-dog" alt="dog">
+    </h1>
     </div>
   </section>
 
@@ -1880,10 +1912,11 @@ body{
       <div class="rules-wrap">
         <div class="rule-card">
           <h3>How the Pool Works</h3>
-          <p>The page below is driven by the live Google Sheet feed for your pool. Participant totals and trend lines update automatically from that source.</p>
+          <p>The page below is driven by the live Google Sheet feed for your pool. Participant totals update automatically from that source.</p>
           <ul>
             <li>Each participant drafts 8 golfers before the tournament begins.</li>
             <li>For each round, only the lowest 6 golfer scores count toward that participant's round total.</li>
+            <li>Zero values do not count as valid round scores.</li>
             <li>The 6 counting golfers can change from round to round.</li>
           </ul>
         </div>
@@ -1891,11 +1924,10 @@ body{
         <div class="rule-card">
           <h3>Scoring, Cut Rules, and Winning</h3>
           <ul>
-            <li>If a golfer is cut, disqualified, or withdraws, a 10-stroke penalty is applied for that golfer.</li>
-            <li>Missed-cut golfers can be represented with 82s in later rounds for tracking, but the pool logic is driven by participant totals and penalties.</li>
-            <li>Round 1 through Round 4 participant scores are added together, then penalties are applied to reach the adjusted total.</li>
+            <li>If a golfer is cut, disqualified, or withdraws, penalty logic applies based on their status.</li>
+            <li>Missed-cut golfers can be represented with 82s in later rounds for tracking.</li>
+            <li>Round 1 through Round 4 participant scores are added together to reach the adjusted total.</li>
             <li>The leaderboard is ordered by the lowest adjusted total.</li>
-            <li>The Pool Trends chart shows cumulative strokes behind the leader after each round: R1, R2, R3, and R4.</li>
             <li>The participant with the lowest final adjusted total wins the pool.</li>
           </ul>
         </div>
@@ -1903,11 +1935,6 @@ body{
     </article>
   </section>
 </div>
-
-
-
-
-
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -1921,16 +1948,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const trendNote = document.getElementById('trend-note');
   const standingsBody = document.getElementById('pool-standings-tbody');
   const participantGrid = document.getElementById('participant-grid');
-  const leaderboardSub = document.querySelector('#pool-view .strip-card .card-sub');
-
-  const participantColors = {
-    Shaun: '#174230',
-    Brian: '#a5852e',
-    Phil: '#6b7d89',
-    Caruso: '#8a5a4a',
-    Demitri: '#4e6f63',
-    Wilmar: '#7b6c54'
-  };
+  const leaderboardSub = document.querySelector('.leaderboard-card-clean .card-sub');
 
   let latestParticipants = [];
 
@@ -1974,20 +1992,6 @@ document.addEventListener('DOMContentLoaded', function () {
     return Number.isFinite(num) ? num : 999;
   }
 
-  function formatScore(value) {
-    const str = String(value || '').trim();
-    if (!str || str === '0') return '0';
-    return str;
-  }
-
-  function formatToday(value, status) {
-    const str = String(value || '').trim();
-    if (!str || str === '0') {
-      return status === 'Missed Cut' ? 'MC' : '—';
-    }
-    return str;
-  }
-
   function formatThru(value, status) {
     const str = String(value || '').trim();
     if (!str || str === '0') {
@@ -2003,6 +2007,217 @@ document.addEventListener('DOMContentLoaded', function () {
     if (num < 0) return 'score-under';
     if (num === 0) return 'score-even';
     return 'score-over';
+  }
+
+  function formatParTotal(num) {
+    if (!Number.isFinite(num)) return 'E';
+    if (num === 0) return 'E';
+    return num > 0 ? ('+' + num) : String(num);
+  }
+
+  function isPenaltyStatus(status) {
+    const normalized = String(status || '').trim().toLowerCase();
+    return normalized === 'missed cut' || normalized === 'mc' || normalized === 'cut' || normalized === 'withdrawn' || normalized === 'wd' || normalized === 'dq' || normalized === 'disqualified';
+  }
+
+  function isCompletedRoundStroke(value) {
+    const num = parseNumber(value, null);
+    return Number.isFinite(num) && num >= 50 && num <= 120;
+  }
+
+  function getPenaltyStrokeCount(golfer) {
+    if (!isPenaltyStatus(golfer.status)) return 0;
+
+    const normalized = String(golfer.status || '').trim().toLowerCase();
+
+    if (normalized === 'missed cut' || normalized === 'mc' || normalized === 'cut') {
+      return 2;
+    }
+
+    return ['r1', 'r2', 'r3', 'r4'].reduce(function(total, key) {
+      return total + (isCompletedRoundStroke(golfer[key]) ? 0 : 1);
+    }, 0);
+  }
+
+  function getEffectiveGolferTotal(golfer) {
+    return parseNumber(golfer.golfer_total, 9999) + (getPenaltyStrokeCount(golfer) * 10);
+  }
+
+  function getEffectiveRoundScore(golfer, roundKey) {
+    const numericValue = parseNumber(golfer[roundKey], null);
+    const isPenalty = isPenaltyStatus(golfer.status);
+
+    if (!isPenalty) {
+      return isCompletedRoundStroke(numericValue) ? numericValue : Infinity;
+    }
+
+    const normalized = String(golfer.status || '').trim().toLowerCase();
+
+    if (normalized === 'missed cut' || normalized === 'mc' || normalized === 'cut') {
+      if (roundKey === 'r1' || roundKey === 'r2') {
+        return isCompletedRoundStroke(numericValue) ? numericValue : Infinity;
+      }
+      return isCompletedRoundStroke(numericValue) ? numericValue : 82;
+    }
+
+    return isCompletedRoundStroke(numericValue) ? numericValue : 10;
+  }
+
+  function getRoundCountingIds(participant, roundKey) {
+    return new Set(
+      participant.golfers
+        .slice()
+        .map(function(g) {
+          return {
+            golfer_id: g.golfer_id,
+            score: getEffectiveRoundScore(g, roundKey)
+          };
+        })
+        .filter(function(item) {
+          return Number.isFinite(item.score);
+        })
+        .sort(function(a, b) {
+          return a.score - b.score;
+        })
+        .slice(0, 6)
+        .map(function(item) { return item.golfer_id; })
+    );
+  }
+
+  function buildRoundCountingMap(participant) {
+    participant.roundCounting = {
+      r1: getRoundCountingIds(participant, 'r1'),
+      r2: getRoundCountingIds(participant, 'r2'),
+      r3: getRoundCountingIds(participant, 'r3'),
+      r4: getRoundCountingIds(participant, 'r4')
+    };
+  }
+
+  function isCountedInRound(participant, golfer, roundKey) {
+    return !!(
+      participant &&
+      participant.roundCounting &&
+      participant.roundCounting[roundKey] &&
+      participant.roundCounting[roundKey].has(golfer.golfer_id)
+    );
+  }
+
+  function isCountedAnywhere(participant, golfer) {
+    return ['r1', 'r2', 'r3', 'r4'].some(function(roundKey) {
+      return isCountedInRound(participant, golfer, roundKey);
+    });
+  }
+
+  function isPenaltyRound(golfer, roundKey) {
+    if (!isPenaltyStatus(golfer.status)) return false;
+
+    const normalized = String(golfer.status || '').trim().toLowerCase();
+
+    if (normalized === 'missed cut' || normalized === 'mc' || normalized === 'cut') {
+      return roundKey === 'r3' || roundKey === 'r4';
+    }
+
+    return !isCompletedRoundStroke(golfer[roundKey]);
+  }
+
+  function getParticipantRoundStrokeTotal(participant, roundKey) {
+    return participant.golfers.reduce(function(sum, golfer) {
+      return sum + (isCountedInRound(participant, golfer, roundKey)
+        ? getEffectiveRoundScore(golfer, roundKey)
+        : 0);
+    }, 0);
+  }
+
+  function getRoundPenaltyToPar(golfer, roundKey) {
+    if (!isPenaltyStatus(golfer.status)) return null;
+
+    const normalized = String(golfer.status || '').trim().toLowerCase();
+    if (normalized === 'missed cut' || normalized === 'mc' || normalized === 'cut') {
+      return (roundKey === 'r3' || roundKey === 'r4') ? 10 : null;
+    }
+
+    if (isCompletedRoundStroke(golfer[roundKey])) {
+      return parseNumber(golfer[roundKey], 0) - 72;
+    }
+
+    return 10;
+  }
+
+  function getGolferRoundToPar(golfer, roundKey) {
+    const penaltyToPar = getRoundPenaltyToPar(golfer, roundKey);
+    if (penaltyToPar !== null) return penaltyToPar;
+
+    if (isCompletedRoundStroke(golfer[roundKey])) {
+      return parseNumber(golfer[roundKey], 0) - 72;
+    }
+
+    return 0;
+  }
+
+  function getParticipantRoundToPar(participant, roundKey) {
+    return participant.golfers.reduce(function(sum, golfer) {
+      return sum + (isCountedInRound(participant, golfer, roundKey)
+        ? getGolferRoundToPar(golfer, roundKey)
+        : 0);
+    }, 0);
+  }
+
+  function getCountingToParTotal(participant) {
+    return (
+      getParticipantRoundToPar(participant, 'r1') +
+      getParticipantRoundToPar(participant, 'r2') +
+      getParticipantRoundToPar(participant, 'r3') +
+      getParticipantRoundToPar(participant, 'r4')
+    );
+  }
+
+  function getCountingStrokeTotal(participant) {
+    return (
+      parseNumber(participant.participant_r1, 0) +
+      parseNumber(participant.participant_r2, 0) +
+      parseNumber(participant.participant_r3, 0) +
+      parseNumber(participant.participant_r4, 0)
+    );
+  }
+
+  function applyDerivedParticipantTotals(participant) {
+    buildRoundCountingMap(participant);
+
+    participant.participant_r1 = getParticipantRoundStrokeTotal(participant, 'r1');
+    participant.participant_r2 = getParticipantRoundStrokeTotal(participant, 'r2');
+    participant.participant_r3 = getParticipantRoundStrokeTotal(participant, 'r3');
+    participant.participant_r4 = getParticipantRoundStrokeTotal(participant, 'r4');
+
+    participant.adjusted_total = getCountingStrokeTotal(participant);
+  }
+
+  function getDisplayedScoreToPar(participant, golfer) {
+    if (isCountedAnywhere(participant, golfer) && isPenaltyStatus(golfer.status)) {
+      const baseToPar = parseToPar(golfer.to_par);
+      const adjustedToPar = (Number.isFinite(baseToPar) && baseToPar < 900 ? baseToPar : 0) + (getPenaltyStrokeCount(golfer) * 10);
+      return formatParTotal(adjustedToPar);
+    }
+    if (golfer.status === 'Missed Cut') return 'MC';
+    return golfer.to_par;
+  }
+
+  function displayedScoreClass(participant, golfer) {
+    if (isCountedAnywhere(participant, golfer) && isPenaltyStatus(golfer.status)) {
+      const baseToPar = parseToPar(golfer.to_par);
+      const adjustedToPar = (Number.isFinite(baseToPar) && baseToPar < 900 ? baseToPar : 0) + (getPenaltyStrokeCount(golfer) * 10);
+      return scoreClass(adjustedToPar);
+    }
+    return scoreClass(golfer.to_par);
+  }
+
+  function roundCellClass(participant, golfer, roundKey) {
+    if (!isCountedInRound(participant, golfer, roundKey)) return '';
+    return isPenaltyRound(golfer, roundKey) ? 'counting-penalty' : 'counting-live';
+  }
+
+  function roundCellValue(golfer, roundKey) {
+    const value = golfer[roundKey];
+    return value === null || value === undefined || value === '' ? '—' : value;
   }
 
   function buildParticipants(rows) {
@@ -2049,19 +2264,26 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     participants.forEach(function(participant) {
-      const countedIds = new Set(participant.golfers
-        .slice()
-        .sort(function(a, b) { return parseNumber(a.golfer_total, 9999) - parseNumber(b.golfer_total, 9999); })
-        .slice(0, 6)
-        .map(function(g) { return g.golfer_id; }));
-
       participant.golfers.forEach(function(golfer) {
-        golfer.counting = countedIds.has(golfer.golfer_id);
+        golfer.penalty_strokes = getPenaltyStrokeCount(golfer) * 10;
+        golfer.effective_total = getEffectiveGolferTotal(golfer);
       });
 
       participant.golfers.sort(function(a, b) {
-        return parseNumber(a.golfer_total, 9999) - parseNumber(b.golfer_total, 9999);
+        return a.effective_total - b.effective_total;
       });
+
+      applyDerivedParticipantTotals(participant);
+    });
+
+    participants.sort(function(a, b) {
+      if (a.adjusted_total !== b.adjusted_total) return a.adjusted_total - b.adjusted_total;
+      if (a.participant_r1 !== b.participant_r1) return a.participant_r1 - b.participant_r1;
+      return String(a.participant_name).localeCompare(String(b.participant_name));
+    });
+
+    participants.forEach(function(participant, index) {
+      participant.rank = index + 1;
     });
 
     return participants;
@@ -2070,18 +2292,28 @@ document.addEventListener('DOMContentLoaded', function () {
   function renderStandings(participants) {
     standingsBody.innerHTML = participants.map(function(p, index) {
       const medalClass = index === 0 ? 'place-1' : index === 1 ? 'place-2' : index === 2 ? 'place-3' : '';
+      const round1Total = getParticipantRoundToPar(p, 'r1');
+      const round2Total = getParticipantRoundToPar(p, 'r2');
+      const round3Total = getParticipantRoundToPar(p, 'r3');
+      const round4Total = getParticipantRoundToPar(p, 'r4');
+      const round1Score = formatParTotal(round1Total);
+      const round2Score = formatParTotal(round2Total);
+      const round3Score = formatParTotal(round3Total);
+      const round4Score = formatParTotal(round4Total);
+      const totalScore = getCountingToParTotal(p);
+
       return '<tr class="' + medalClass + '">' +
         '<td><a href="#' + slugify(p.participant_name) + '" class="participant-name"><span class="participant-link-inner"><span>' + p.participant_name + '</span></span></a></td>' +
-        '<td>' + p.participant_r1 + '</td>' +
-        '<td>' + p.participant_r2 + '</td>' +
-        '<td>' + p.participant_r3 + '</td>' +
-        '<td>' + p.participant_r4 + '</td>' +
-        '<td>' + p.adjusted_total + '</td>' +
+        '<td class="' + scoreClass(round1Score) + '">' + round1Score + '</td>' +
+        '<td class="' + scoreClass(round2Score) + '">' + round2Score + '</td>' +
+        '<td class="' + scoreClass(round3Score) + '">' + round3Score + '</td>' +
+        '<td class="' + scoreClass(round4Score) + '">' + round4Score + '</td>' +
+        '<td class="' + (totalScore < 0 ? 'score-under' : totalScore > 0 ? 'score-over' : 'score-even') + '">' + formatParTotal(totalScore) + '</td>' +
       '</tr>';
     }).join('');
 
     if (leaderboardSub) {
-      leaderboardSub.textContent = 'Live participant standings from the official pool standings • live scoring.';
+      leaderboardSub.textContent = 'Live participant standings shown as score to par by round and total.';
     }
   }
 
@@ -2098,7 +2330,10 @@ document.addEventListener('DOMContentLoaded', function () {
             '<h3 id="' + slugify(p.participant_name) + '">' + p.participant_name + '</h3>' +
             '<p>' + participantSubtitle(p.rank) + '</p>' +
           '</div>' +
-          '<div class="scorebox"><span class="value">' + p.adjusted_total + '</span></div>' +
+          '<div class="scorebox">' +
+            '<span class="value">' + getCountingStrokeTotal(p) + '</span>' +
+            '<span class="subvalue">(' + formatParTotal(getCountingToParTotal(p)) + ')</span>' +
+          '</div>' +
         '</div>' +
         '<div class="participant-meta">' +
           '<div class="meta-item"><span class="meta-k">Round 1</span><span class="meta-v">' + p.participant_r1 + '</span></div>' +
@@ -2112,14 +2347,14 @@ document.addEventListener('DOMContentLoaded', function () {
             '<tbody>' +
               p.golfers.map(function(g) {
                 return '<tr>' +
-                  '<td>' + g.golfer_name + (g.counting ? ' *' : '') + '</td>' +
+                  '<td>' + g.golfer_name + '</td>' +
                   '<td>' + formatThru(g.thru, g.status) + '</td>' +
-                  '<td>' + (g.r1 || '—') + '</td>' +
-                  '<td>' + (g.r2 || '—') + '</td>' +
-                  '<td>' + (g.r3 || '—') + '</td>' +
-                  '<td>' + (g.r4 || '—') + '</td>' +
-                  '<td class="' + scoreClass(g.to_par) + '">' + (g.status === 'Missed Cut' ? 'MC' : g.to_par) + '</td>' +
-                  '<td>' + (g.golfer_total || '—') + '</td>' +
+                  '<td class="' + roundCellClass(p, g, 'r1') + '">' + roundCellValue(g, 'r1') + '</td>' +
+                  '<td class="' + roundCellClass(p, g, 'r2') + '">' + roundCellValue(g, 'r2') + '</td>' +
+                  '<td class="' + roundCellClass(p, g, 'r3') + '">' + roundCellValue(g, 'r3') + '</td>' +
+                  '<td class="' + roundCellClass(p, g, 'r4') + '">' + roundCellValue(g, 'r4') + '</td>' +
+                  '<td class="' + displayedScoreClass(p, g) + '">' + getDisplayedScoreToPar(p, g) + '</td>' +
+                  '<td>' + (Number.isFinite(g.effective_total) && g.effective_total < 9999 ? g.effective_total : (g.golfer_total || '—')) + '</td>' +
                 '</tr>';
               }).join('') +
             '</tbody>' +
@@ -2129,111 +2364,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }).join('');
   }
 
-  function buildBehindSeries(participants) {
-    const roundKeys = ['participant_r1', 'participant_r2', 'participant_r3', 'participant_r4'];
-
-    const cumulativeTotalsByParticipant = participants.map(function(p) {
-      let running = 0;
-      return roundKeys.map(function(key) {
-        const roundValue = parseNumber(p[key], 0);
-        if (roundValue <= 0) return null;
-        running += roundValue;
-        return running;
-      });
-    });
-
-    const leaderByRound = roundKeys.map(function(_, roundIndex) {
-      const vals = cumulativeTotalsByParticipant
-        .map(function(totals) { return totals[roundIndex]; })
-        .filter(function(v) { return v !== null && v > 0; });
-      return vals.length ? Math.min.apply(null, vals) : 0;
-    });
-
-    return participants.map(function(p, participantIndex) {
-      return {
-        name: p.participant_name,
-        color: participantColors[p.participant_name] || '#4e6f63',
-        values: cumulativeTotalsByParticipant[participantIndex].map(function(total, roundIndex) {
-          return total !== null ? total - leaderByRound[roundIndex] : null;
-        })
-      };
-    });
-  }
-
-  function getScale(series) {
-    const vals = series.flatMap(function(s) {
-      return s.values.filter(function(v) { return v !== null; });
-    });
-    const max = Math.max.apply(null, vals.concat([5]));
-    return { min: 0, max: Math.ceil((max + 2) / 5) * 5 };
-  }
-
-  function yFor(value, min, max, top, bottom) {
-    if (max === min) return (top + bottom) / 2;
-    return top + ((value - min) / (max - min)) * (bottom - top);
-  }
-
-  function buildLabels(min, max) {
-    const step = max <= 20 ? 5 : max <= 40 ? 10 : max <= 80 ? 20 : 25;
-    const out = [];
-    for (let v = min; v <= max + 0.001; v += step) out.push(v);
-    if (out[out.length - 1] !== max) out.push(max);
-    return out;
-  }
-
-  function renderLegend(chartData) {
-    trendLegend.innerHTML = chartData.map(function(p) {
-      return '<span class="legend-item"><span class="legend-line" style="color:' + p.color + '"></span>' + p.name + '</span>';
-    }).join('');
-  }
-
   function renderChart() {
-    if (!latestParticipants.length) return;
-    const series = buildBehindSeries(latestParticipants);
-    const scale = getScale(series);
-    const axisLabels = buildLabels(scale.min, scale.max);
-
-    renderLegend(series);
-    trendNote.textContent = 'Cumulative strokes behind leader after R1, R2, R3, and R4. Leader = 0.';
-
-    const width = 960, height = 250;
-    const left = 72, right = 920, top = 24, bottom = 206;
-    const x = [72, 354, 636, 918];
-
-    let svg = '';
-    svg += '<rect x="0" y="0" width="' + width + '" height="' + height + '" fill="transparent"></rect>';
-    svg += '<line x1="' + left + '" y1="' + top + '" x2="' + left + '" y2="' + bottom + '" class="axis-line"></line>';
-    svg += '<line x1="' + left + '" y1="' + bottom + '" x2="' + right + '" y2="' + bottom + '" class="axis-line"></line>';
-
-    axisLabels.forEach(function(v) {
-      const y = yFor(v, scale.min, scale.max, top, bottom);
-      svg += '<line x1="' + left + '" y1="' + y + '" x2="' + right + '" y2="' + y + '" class="grid-line"></line>';
-      svg += '<text x="14" y="' + (y + 4) + '" class="axis-label">' + v + '</text>';
-    });
-
-    ['R1','R2','R3','R4'].forEach(function(r, i) {
-      svg += '<text x="' + x[i] + '" y="236" text-anchor="middle" class="round-label">' + r + '</text>';
-    });
-
-    const mobileChart = window.innerWidth <= 767;
-    series.forEach(function(s, idx) {
-      const strokeWidth = mobileChart ? (idx === 0 ? 5.4 : 4.1) : (idx === 0 ? 3.6 : 2.4);
-      const pointPairs = s.values.map(function(v, i) {
-        if (v === null) return null;
-        return x[i] + ',' + yFor(v, scale.min, scale.max, top, bottom);
-      }).filter(Boolean);
-      if (pointPairs.length) {
-        svg += '<polyline points="' + pointPairs.join(' ') + '" class="trend-line" style="stroke:' + s.color + ';stroke-width:' + strokeWidth + '"></polyline>';
-      }
-      s.values.forEach(function(v, i) {
-        if (v === null) return;
-        const r = mobileChart ? (idx === 0 ? 5.6 : 4.6) : (idx === 0 ? 4 : 3.2);
-        svg += '<circle cx="' + x[i] + '" cy="' + yFor(v, scale.min, scale.max, top, bottom) + '" r="' + r + '" class="dot" fill="' + s.color + '"></circle>';
-      });
-    });
-
-    trendChart.setAttribute('viewBox', '0 0 960 250');
-    trendChart.innerHTML = svg;
+    if (!trendChart || !trendLegend || !trendNote) return;
   }
 
   function renderAll(rows) {
@@ -2252,7 +2384,7 @@ document.addEventListener('DOMContentLoaded', function () {
     } catch (error) {
       console.error('Failed to load live data:', error);
       if (leaderboardSub) leaderboardSub.textContent = 'Unable to load live data right now.';
-      trendNote.textContent = 'Live feed unavailable.';
+      if (trendNote) trendNote.textContent = 'Live feed unavailable.';
     }
   }
 
