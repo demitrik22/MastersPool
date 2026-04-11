@@ -4,286 +4,2467 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>🔺 TKE 🔺 Masters Pool 2026</title>
-
 <style>
+:root{
+  --green:#173b2c;
+  --green-dark:#102a1f;
+  --green-soft:#28503d;
+  --gold:#efe2b8;
+  --gold-light:#faf5e4;
+  --paper:#fcfaf4;
+  --ink:#1e241f;
+  --muted:#697268;
+  --border:rgba(16,42,31,.10);
+  --line:rgba(16,42,31,.08);
+  --shadow:0 12px 36px rgba(16,42,31,.07);
+}
+
+@keyframes firstPlacePulse{
+  0%,100%{ box-shadow:0 0 0 0 rgba(212,175,55,.00), inset 0 0 0 0 rgba(255,230,120,.00); }
+  50%{ box-shadow:0 0 0 4px rgba(212,175,55,.18), 0 0 22px rgba(212,175,55,.40); }
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{
   margin:0;
-  font-family:Arial, sans-serif;
-  background:#f5f5f5;
+  font-family:Arial, Helvetica, sans-serif;
+  background:
+    radial-gradient(circle at top, rgba(239,226,184,.28), transparent 28%),
+    linear-gradient(180deg,#fcfaf4 0%,#f6f2e8 100%);
+  color:var(--ink);
 }
-
+.page{
+  width:100%;
+  margin:0;
+  padding:0;
+}
+.dashboard-shell{
+  width:min(1520px, calc(100vw - 40px));
+  margin:0 auto;
+}
+.full-bleed{
+  width:100%;
+}
+.section-shell{
+  width:min(1520px, calc(100vw - 40px));
+  margin:0 auto;
+}
 .hero{
-  background:#173b2c;
-  color:#fff;
-  text-align:center;
-  padding:30px;
+  position:relative;
+  border-top:2px solid #000;
   border-bottom:2px solid #000;
+  overflow:hidden;
+  background:linear-gradient(135deg,var(--green) 0%,var(--green-dark) 100%);
+  color:#fff;
+  border-radius:0;
+  padding:34px 0 40px;
+  box-shadow:var(--shadow);
+  margin:0 0 18px;
 }
-.hero h1{margin:0;font-size:32px;}
-
-.container{
-  max-width:1100px;
-  margin:20px auto;
-  padding:0 10px;
+.hero-inner{
+  width:min(1520px, calc(100vw - 40px));
+  margin:0 auto;
+  text-align:center;
+}
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 88% 10%, rgba(255,255,255,.10), transparent 20%),
+    linear-gradient(180deg, rgba(255,255,255,.05), transparent 42%);
+  pointer-events:none;
+}
+.eyebrow{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  padding:7px 11px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.07);
+  font-size:.68rem;
+  text-transform:uppercase;
+  letter-spacing:.17em;
+  opacity:.92;
+  margin-bottom:12px;
+}
+.hero h1{
+  position:relative;
+  margin:0;
+  font-family:"Playfair Display", Georgia, "Times New Roman", serif;
+  font-size:clamp(2.4rem, 5vw, 4.8rem);
+  line-height:.98;
+  letter-spacing:-.035em;
+}
+.top-tabs{
+  position:relative;
+  border:2px solid #000;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  width:fit-content;
+  max-width:min(1520px, calc(100vw - 40px));
+  margin:0 auto 18px;
+  padding:6px;
+  border:1px solid var(--border);
+  border-radius:18px;
+  background:rgba(255,255,255,.92);
+  box-shadow:0 8px 22px rgba(16,42,31,.04);
+}
+.top-tab-indicator{
+  position:absolute;
+  top:6px;
+  left:6px;
+  height:calc(100% - 12px);
+  border-radius:14px;
+  background:linear-gradient(180deg,var(--green-soft) 0%,var(--green-dark) 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.10), 0 8px 18px rgba(16,42,31,.12);
+  transition:left .3s ease, width .3s ease, transform .3s ease;
+  z-index:0;
+  pointer-events:none;
+}
+.top-tab{
+  appearance:none;
+  position:relative;
+  z-index:1;
+  border:0;
+  background:transparent;
+  color:var(--green);
+  min-width:140px;
+  min-height:42px;
+  padding:9px 18px;
+  border-radius:12px;
+  font-weight:700;
+  font-size:.88rem;
+  cursor:pointer;
+  letter-spacing:.01em;
+  transition:color .25s ease, transform .2s ease;
+}
+.top-tab:hover{
+  transform:translateY(-1px);
+}
+.top-tab.active{
+  color:#f7f1de;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08);
+}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.top-grid{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:14px;
+  align-items:start;
+}
+.card{
+  background:rgba(255,255,255,.84);
+  border:2px solid #000;
+  border-radius:20px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  backdrop-filter:blur(6px);
+}
+.strip-card{
+  background:linear-gradient(180deg,var(--gold-light) 0%,var(--gold) 100%);
+  border-color:rgba(115,86,20,.14);
+}
+.card-header{
+  padding:16px 16px 10px;
+}
+.card-title{
+  margin:0;
+  font-size:1.12rem;
+  color:var(--green);
+  font-family:"Playfair Display", Georgia, "Times New Roman", serif;
+  letter-spacing:-.02em;
+}
+.card-sub{
+  margin:5px 0 0;
+  font-size:.87rem;
+  color:#76663a;
+  line-height:1.4;
 }
 
-/* LEADERBOARD */
-table{
+.summary-card{
+  background:rgba(255,255,255,.86);
+}
+.summary-card .card-header{
+  padding-bottom:6px;
+}
+
+.leaderboard-card{
+  width:100%;
+  margin:0 auto;
+}
+.trends-card{
+  width:100%;
+  margin:18px auto 0;
+}
+@media (min-width:1025px){
+  .leaderboard-card .card-header,
+  .trends-card .card-header{
+    padding:20px 22px 12px;
+  }
+  .leaderboard-wrap{
+    padding:0 12px 14px;
+  }
+  .leaderboard-table th{
+    padding:12px 8px;
+    font-size:.74rem;
+  }
+  .leaderboard-table td{
+    padding:13px 8px;
+    font-size:.94rem;
+  }
+  .trends-card .trend-toolbar{
+    padding:0 22px 10px;
+  }
+  .trends-card .trend-legend{
+    padding:0 22px 12px;
+  }
+  .trends-card .trend-chart-wrap{
+    padding:0 18px 18px 12px;
+    height:300px;
+  }
+  .trends-card .trend-chart{
+    height:100%;
+  }
+}
+.trend-toolbar{
+  display:block;
+  padding:0 16px 8px;
+}
+.trend-note{
+  font-size:.77rem;
+  line-height:1.35;
+  color:#677166;
+}
+.trend-legend{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px 14px;
+  padding:0 16px 10px;
+}
+.legend-item{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  color:#556055;
+  font-size:.79rem;
+}
+.legend-line{
+  width:18px;
+  height:0;
+  border-top:3px solid currentColor;
+  border-radius:999px;
+  display:inline-block;
+}
+.trend-chart-wrap{
+  width:100%;
+  height:280px;
+  padding:0 22px 20px;
+}
+.trend-chart{
+  width:100%;
+  height:100%;
+  display:block;
+}
+
+.axis-line{
+  stroke:rgba(16,42,31,.26);
+  stroke-width:1.3;
+}
+.grid-line{
+  stroke:rgba(16,42,31,.08);
+  stroke-width:1;
+}
+.axis-label,.round-label{
+  fill:#6c766c;
+  font-size:11px;
+  font-family:Arial, Helvetica, sans-serif;
+}
+.trend-line{
+  fill:none;
+  stroke-width:2.3;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.dot{ stroke:#fff; stroke-width:1.4; }
+
+.leaderboard-wrap{padding:0 0 6px}
+
+.leaderboard-card-full,
+.trends-card-full{
+  width:100%;
+}
+.top-grid{
+  grid-template-columns:1fr;
+}
+.pool-trends-section{
+  margin-top:16px;
+}
+.trends-card-full .trend-chart-wrap{
+  padding:4px 16px 18px 8px;
+  min-height:360px;
+}
+.trends-card-full .trend-chart{
+  height:360px;
+}
+@media (min-width:1025px){
+  body{
+    background:
+      radial-gradient(circle at top, rgba(239,226,184,.24), transparent 30%),
+      linear-gradient(180deg,#faf7ee 0%,#f2ede0 100%);
+  }
+  .page{
+    max-width:1520px;
+    padding:20px 22px 34px;
+  }
+  .hero{
+    border-radius:30px;
+    padding:34px 34px 30px;
+    margin-bottom:18px;
+    box-shadow:0 18px 44px rgba(16,42,31,.10);
+  }
+  .top-tabs{
+    margin:0 0 18px;
+    padding:5px;
+    border-radius:18px;
+    background:rgba(255,255,255,.78);
+  }
+  .card,
+  .strip-card,
+  .summary-card,
+  .participant-card,
+  .all-golfers-card,
+  .rule-card{
+    border-radius:26px;
+    box-shadow:0 16px 42px rgba(16,42,31,.08);
+  }
+  .leaderboard-card-full,
+  .trends-card-full,
+  .all-golfers-card,
+  .rules-wrap,
+  .participant-grid,
+  .section-title{
+    width:100%;
+    max-width:none;
+  }
+  .leaderboard-card-full .card-header,
+  .trends-card-full .card-header,
+  .all-golfers-card .card-header{
+    padding:24px 26px 12px;
+  }
+  .leaderboard-card-full .card-title,
+  .trends-card-full .card-title,
+  .section-title h2{
+    font-size:1.55rem;
+  }
+  .leaderboard-wrap{
+    padding:0 0 10px;
+  }
+  .leaderboard-table th,
+  .leaderboard-table td{
+    padding-top:14px;
+    padding-bottom:14px;
+    font-size:.94rem;
+  }
+  .leaderboard-table th{
+    font-size:.75rem;
+  }
+  .leaderboard-table td:first-child,
+  .leaderboard-table th:first-child{
+    width:34%;
+    padding-left:20px;
+  }
+  .leaderboard-table td:last-child,
+  .leaderboard-table th:last-child{
+    padding-right:20px;
+    width:16%;
+  }
+  .pool-trends-section{
+    margin-top:18px;
+  }
+  .trends-card-full .trend-toolbar,
+  .trends-card-full .trend-legend{
+    padding-left:26px;
+    padding-right:26px;
+  }
+  .trends-card-full .trend-chart-wrap{
+    padding:8px 20px 24px 10px;
+    height:320px;
+  }
+  .trends-card-full .trend-chart{
+    height:100%;
+  }
+  .section-title{
+    margin:24px 2px 14px;
+    padding:0 6px;
+  }
+  .participant-grid{
+    gap:18px;
+  }
+  .participant-card{
+    border-radius:28px;
+  }
+  .participant-top{
+    padding:16px 20px;
+  }
+  .participant-top h3{
+    font-size:1.55rem;
+  }
+  .scorebox .value{
+    font-size:2.35rem;
+  }
+  .participant-meta{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    padding:0 20px;
+  }
+  .meta-item{
+    padding:14px 10px 13px;
+  }
+  .meta-v{
+    font-size:1.08rem;
+  }
+  .participant-table-wrap{
+    padding:18px 20px 22px;
+  }
+  .participant-golfers-table{
+    border-radius:18px;
+  }
+  .participant-golfers-table th{
+    padding:14px 10px;
+    font-size:.69rem;
+  }
+  .participant-golfers-table td{
+    padding:14px 10px;
+    font-size:.9rem;
+  }
+  .espn-wrap{
+    padding:0 16px 16px;
+  }
+  .espn-board{
+    min-width:100%;
+    border-radius:18px;
+  }
+}
+
+.leaderboard-table{
+  width:100%;
+  border:2px solid #000;
+  border-collapse:collapse;
+  table-layout:fixed;
+}
+.leaderboard-table th{
+  background:linear-gradient(180deg,var(--green-soft) 0%,var(--green-dark) 100%);
+  color:#f7efcf;
+  padding:10px 6px;
+  font-size:.72rem;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  text-align:center;
+}
+.leaderboard-table td{
+  padding:10px 6px;
+  font-size:.88rem;
+  text-align:center;
+  border-bottom:1px solid rgba(107,81,24,.14);
+  color:#3a311b;
+  font-weight:600;
+}
+.leaderboard-table td:first-child,
+.leaderboard-table th:first-child{
+  text-align:left;
+  padding-left:12px;
+  width:29%;
+}
+.leaderboard-table td:last-child,
+.leaderboard-table th:last-child{
+  padding-right:12px;
+  width:12%;
+}
+.leaderboard-table tbody tr:nth-child(even) td{
+  background:rgba(255,255,255,.15);
+}
+.leaderboard-table .participant-name{
+  color:#1a5fb4;
+  text-decoration:underline;
+  font-weight:700;
+}
+.leaderboard-table .participant-name:hover{
+  color:#0d3f8a;
+  text-decoration:underline;
+}
+.participant-link-inner{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.place-1 td:first-child{border-left:4px solid #d4af37}
+.place-2 td:first-child{border-left:4px solid #c0c0c0}
+.place-3 td:first-child{border-left:4px solid #cd7f32}
+
+.section-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:12px;
+  margin:18px 2px 12px;
+}
+.section-title h2{
+  margin:0;
+  font-family:"Playfair Display", Georgia, "Times New Roman", serif;
+  color:var(--green);
+  font-size:1.32rem;
+}
+.section-title p{
+  margin:0;
+  color:var(--muted);
+  font-size:.9rem;
+}
+.participant-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:16px;
+  max-width:none;
+  margin:0;
+}
+.participant-card{overflow:hidden}
+.participant-top{
+  position:relative;
+  background:linear-gradient(135deg,var(--green) 0%,var(--green-dark) 100%);
+  color:#fff;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:14px;
+  padding:12px 16px;
+}
+.participant-top::after{
+  content:"";
+  position:absolute;
+  inset:auto 0 0 0;
+  height:1px;
+  background:rgba(255,255,255,.08);
+}
+.participant-title-row{
+  display:flex;
+  align-items:baseline;
+  gap:10px;
+  min-width:0;
+}
+.participant-top h3{
+  margin:0;
+  font-family:"Playfair Display", Georgia, "Times New Roman", serif;
+  font-size:1.35rem;
+  line-height:1;
+}
+.participant-top p{
+  margin:0;
+  color:rgba(255,255,255,.78);
+  font-size:.88rem;
+  line-height:1;
+  white-space:nowrap;
+}
+.scorebox{
+  margin-left:auto;
+  text-align:right;
+  min-width:0;
+  flex-shrink:0;
+}
+.scorebox .label{
+  display:none;
+}
+.scorebox .value{
+  display:block;
+  margin-top:0;
+  font-size:2rem;
+  line-height:1;
+  font-weight:700;
+}
+.scorebox .subvalue{display:block;margin-top:4px;font-size:.94rem;line-height:1;font-weight:700;color:rgba(255,255,255,.86)}
+
+.participant-meta{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0;
+  padding:0 16px;
+  background:rgba(16,42,31,.025);
+  border-bottom:1px solid var(--border);
+}
+.meta-item{
+  padding:12px 8px 11px;
+  border-right:1px solid var(--line);
+  background:transparent;
+}
+.meta-item:last-child{
+  border-right:0;
+}
+.meta-k{
+  display:block;
+  font-size:.65rem;
+  text-transform:uppercase;
+  letter-spacing:.11em;
+  color:var(--muted);
+  margin-bottom:4px;
+}
+.meta-v{
+  display:block;
+  font-size:1rem;
+  font-weight:700;
+  color:var(--green);
+}
+.golfer-list{
+  padding:12px;
+  display:grid;
+  gap:9px;
+}
+.golfer-row{
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:10px;
+  background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(248,246,239,.95));
+}
+.golfer-row.counting{
+  background:linear-gradient(180deg,rgba(238,250,242,.98),rgba(247,251,248,.96));
+  border-color:rgba(10,122,67,.26);
+}
+.golfer-head{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:flex-start;
+  margin-bottom:9px;
+}
+.golfer-name{margin:0;font-size:.98rem;font-weight:700}
+.golfer-badges{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:5px;
+}
+.badge{
+  display:inline-flex;
+  align-items:center;
+  border:1px solid var(--border);
+  border-radius:999px;
+  padding:4px 7px;
+  font-size:.68rem;
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  background:#fff;
+  color:#546055;
+}
+.badge.live{background:rgba(17,66,48,.08);color:var(--green)}
+.badge.counting{background:rgba(10,122,67,.10);color:#0a7a43;border-color:rgba(10,122,67,.18)}
+.golfer-right{text-align:right;min-width:62px}
+.position{font-size:.72rem;text-transform:uppercase;letter-spacing:.11em;color:var(--muted)}
+.to-par{margin-top:4px;font-size:1.08rem;font-weight:700}
+.score-under{color:#0a7a43}
+.score-even{color:#425047}
+.score-over{color:#8a3928}
+.golfer-stats{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:7px;
+}
+.stat{
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:7px 6px;
+  text-align:center;
+  background:rgba(255,255,255,.74);
+}
+.stat-label{
+  display:block;
+  font-size:.58rem;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  color:var(--muted);
+  margin-bottom:4px;
+}
+.stat-value{display:block;font-size:.9rem;font-weight:700}
+
+.participant-table-wrap{
+  padding:16px 18px 18px;
+}
+.participant-golfers-table{
+  width:100%;
+  border:2px solid #000;
+  border-collapse:separate;
+  border-spacing:0;
+  table-layout:auto;
+  background:rgba(255,255,255,.98);
+  border:1px solid var(--border);
+  border-radius:16px;
+  overflow:hidden;
+}
+.participant-golfers-table th{
+  background:linear-gradient(180deg, rgba(16,42,31,.05), rgba(16,42,31,.02));
+  color:var(--green);
+  padding:12px 8px;
+  font-size:.67rem;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  text-align:center;
+  border-bottom:1px solid var(--border);
+}
+.participant-golfers-table td{
+  padding:12px 8px;
+  font-size:.88rem;
+  text-align:center;
+  border-bottom:1px solid rgba(16,42,31,.07);
+}
+.participant-golfers-table tbody tr:nth-child(even) td{
+  background:#fdfbf6;
+}
+.participant-golfers-table tbody tr:hover td{
+  background:#f5f8f3;
+}
+.participant-golfers-table tbody tr.counting-live td{
+  background:#eaf7ea;
+}
+.participant-golfers-table tbody tr.counting-live:nth-child(even) td{
+  background:#e3f3e3;
+}
+.participant-golfers-table tbody tr.counting-penalty td{
+  background:#fdeaea;
+}
+.participant-golfers-table tbody tr.counting-penalty:nth-child(even) td{
+  background:#fbe1e1;
+}
+.participant-golfers-table tbody tr.counting-live:hover td{
+  background:#dff1df;
+}
+.participant-golfers-table tbody tr.counting-penalty:hover td{
+  background:#f7d6d6;
+}
+.participant-golfers-table td:first-child,
+.participant-golfers-table th:first-child{
+  text-align:left;
+  padding-left:12px;
+  width:30%;
+}
+.participant-golfers-table td:last-child,
+.participant-golfers-table th:last-child{
+  padding-right:12px;
+}
+.participant-golfers-table td:not(:first-child),
+.participant-golfers-table th:not(:first-child){
+  font-size:.83rem;
+}
+
+.refresh-note{
+  margin:14px 3px 0;
+  font-size:.85rem;
+  color:#667067;
+}
+.all-golfers-card{overflow:hidden}
+.espn-wrap{
+  width:100%;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  padding:0 10px 12px;
+}
+.espn-board{
+  min-width:860px;
+  border:2px solid #000;
   width:100%;
   border-collapse:collapse;
   background:#fff;
-  border:2px solid #000;
-}
-th{
-  background:#173b2c;
-  color:#fff;
-  padding:10px;
-}
-td{
-  padding:10px;
-  text-align:center;
-  border-bottom:1px solid #ddd;
-}
-
-/* Highlight ONLY participant cell */
-.place-1 td:first-child{
-  background:gold;
-  font-weight:700;
-}
-.place-2 td:first-child{
-  background:#d9d9d9;
-}
-.place-3 td:first-child{
-  background:#cd7f32;
-}
-
-/* PARTICIPANT CARD */
-.card{
-  background:#fff;
-  border:2px solid #000;
-  margin-top:20px;
-  border-radius:10px;
+  border:1px solid var(--border);
+  border-radius:14px;
   overflow:hidden;
 }
-
-.card-header{
-  background:#173b2c;
-  color:#fff;
-  padding:15px;
-  display:flex;
-  justify-content:space-between;
-}
-
-.score{
-  text-align:right;
-}
-.score .main{
-  font-size:28px;
-  font-weight:700;
-}
-.score .sub{
-  font-size:14px;
-}
-
-.under{color:#00ff90;}
-.over{color:#ffb3b3;}
-.even{color:#fff;}
-
-.meta{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  background:#eee;
+.espn-board th{
+  background:linear-gradient(180deg,var(--green-soft) 0%,var(--green-dark) 100%);
+  color:#f7efcf;
+  padding:11px 10px;
+  font-size:.72rem;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  white-space:nowrap;
   text-align:center;
 }
-.meta div{padding:10px;}
+.espn-board td{
+  padding:11px 10px;
+  font-size:.92rem;
+  text-align:center;
+  border-bottom:1px solid rgba(17,50,35,.08);
+  white-space:nowrap;
+}
+.espn-board td:nth-child(2),
+.espn-board th:nth-child(2){text-align:left}
+.espn-board tbody tr:nth-child(even) td{background:#fbfaf5}
+.espn-board tbody tr:hover td{background:#f3f7f2}
+.espn-rank{font-weight:700;color:#4a564f}
+.cut-line{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+  padding:0 12px 12px;
+  color:#5f675f;
+  font-size:.86rem;
+}
+.rules-wrap{
+  padding:0 14px 16px;
+}
+.rule-card{
+  border:2px solid #000;
+  border-radius:18px;
+  background:rgba(255,255,255,.92);
+  padding:16px 16px 12px;
+  margin-bottom:12px;
+  box-shadow:0 8px 24px rgba(16,42,31,.04);
+}
+.rule-card h3{
+  margin:0 0 10px;
+  color:#174230;
+  font-family:"Playfair Display", Georgia, "Times New Roman", serif;
+  font-size:1.05rem;
+}
+.rule-card p,.rule-card li{
+  color:#455148;
+  line-height:1.55;
+  font-size:.94rem;
+}
+.rule-card ul{
+  margin:0;
+  padding-left:18px;
+}
 
-.small-table{
-  width:100%;
-}
-.small-table th{
-  background:#eee;
-  color:#000;
-}
-.small-table td{
-  border-bottom:1px solid #eee;
+@media (min-width:1100px){
+  .page{
+    max-width:1400px;
+    padding:24px 26px 34px;
+  }
+  .hero{
+    padding:34px 34px;
+    border-radius:28px;
+    margin-bottom:22px;
+  }
+  .hero h1{
+    max-width:820px;
+    font-size:clamp(2.8rem,4.5vw,4.6rem);
+  }
+  .top-tabs{
+    margin:0 0 22px;
+    padding:5px;
+    border-radius:18px;
+  }
+  .top-tab{
+    min-height:46px;
+    padding:10px 18px;
+    font-size:.92rem;
+  }
+  .top-grid{
+    grid-template-columns:minmax(0, 1.15fr) minmax(380px, .85fr);
+    gap:22px;
+    align-items:stretch;
+  }
+  .strip-card,
+  .summary-card,
+  .all-golfers-card{
+    border-radius:24px;
+    box-shadow:0 18px 44px rgba(16,42,31,.08);
+  }
+  .card-header{
+    padding:22px 22px 12px;
+  }
+  .card-title{
+    font-size:1.3rem;
+  }
+  .card-sub{
+    font-size:.92rem;
+    max-width:62ch;
+  }
+  .leaderboard-wrap{
+    padding:0 14px 14px;
+  }
+  .leaderboard-table{
+    overflow:hidden;
+    border-radius:18px;
+  }
+  .leaderboard-table th{
+    padding:13px 8px;
+    font-size:.73rem;
+  }
+  .leaderboard-table td{
+    padding:14px 8px;
+    font-size:.95rem;
+  }
+  .leaderboard-table td:first-child,
+  .leaderboard-table th:first-child{
+    width:33%;
+    padding-left:16px;
+  }
+  .leaderboard-table td:last-child,
+  .leaderboard-table th:last-child{
+    padding-right:16px;
+    width:16%;
+  }
+  .trend-toolbar,
+  .trend-legend{
+    padding-left:22px;
+    padding-right:22px;
+  }
+  .trend-chart-wrap{
+    padding:4px 18px 20px 8px;
+    min-height:360px;
+  }
+  .trend-chart{
+    height:360px;
+  }
+  .section-title{
+    margin:28px 4px 16px;
+  }
+  .section-title h2{
+    font-size:1.55rem;
+  }
+  .participant-grid{
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    gap:22px;
+    max-width:none;
+    align-items:start;
+  }
+  .participant-card{
+    border-radius:24px;
+    box-shadow:0 18px 44px rgba(16,42,31,.08);
+  }
+  .participant-top{
+    padding:16px 20px;
+  }
+  .participant-top h3{
+    font-size:1.55rem;
+  }
+  .participant-top p{
+    font-size:.9rem;
+  }
+  .scorebox .value{
+    font-size:2.35rem;
+  }
+  .participant-meta{
+    padding:0 20px;
+  }
+  .meta-item{
+    padding:14px 10px 13px;
+  }
+  .meta-k{
+    font-size:.66rem;
+  }
+  .meta-v{
+    font-size:1.08rem;
+  }
+  .participant-table-wrap{
+    padding:18px 20px 20px;
+  }
+  .participant-golfers-table{
+    border-radius:18px;
+  }
+  .participant-golfers-table th{
+    padding:13px 8px;
+    font-size:.68rem;
+  }
+  .participant-golfers-table td{
+    padding:13px 8px;
+    font-size:.9rem;
+  }
+  .participant-golfers-table td:first-child,
+  .participant-golfers-table th:first-child{
+    width:34%;
+    padding-left:14px;
+  }
+  .espn-wrap{
+    padding:0 16px 16px;
+  }
+  .espn-board{
+    border-radius:18px;
+  }
+  .espn-board th{
+    padding:13px 10px;
+  }
+  .espn-board td{
+    padding:13px 10px;
+    font-size:.95rem;
+  }
+  .cut-line,
+  .rules-wrap{
+    padding-left:18px;
+    padding-right:18px;
+  }
 }
 
-.score-under{color:green;}
-.score-over{color:red;}
-.score-even{color:black;}
+@media (min-width:1025px){
+  body{
+    background:
+      radial-gradient(circle at top, rgba(239,226,184,.22), transparent 24%),
+      linear-gradient(180deg,#f7f2e7 0%, #f3efe4 18%, #f8f5ee 100%);
+  }
+  .page{
+    max-width:none;
+    padding:0;
+  }
+  .hero{
+    margin:0;
+    border-radius:0;
+    box-shadow:none;
+    min-height:260px;
+    padding:42px 0 40px;
+    background:
+      radial-gradient(circle at 15% 10%, rgba(255,255,255,.08), transparent 18%),
+      radial-gradient(circle at 85% 15%, rgba(255,255,255,.10), transparent 16%),
+      linear-gradient(135deg,#123223 0%,#173b2c 50%,#102a1f 100%);
+  }
+  .hero::before{
+    background:
+      linear-gradient(90deg, rgba(239,226,184,.06), transparent 45%),
+      linear-gradient(180deg, rgba(255,255,255,.04), transparent 42%);
+  }
+  .hero h1{
+    max-width:1400px;
+    margin:0 auto;
+    padding:0 34px;
+    font-size:clamp(3.4rem,5vw,5.4rem);
+    letter-spacing:-.05em;
+  }
+  .top-tabs{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    width:fit-content;
+    max-width:calc(100vw - 48px);
+    margin:18px auto 24px;
+    padding:8px;
+    border-radius:22px;
+    border:1px solid rgba(16,42,31,.10);
+    background:rgba(252,250,244,.90);
+    box-shadow:0 12px 28px rgba(16,42,31,.08);
+    gap:12px;
+    position:sticky;
+    top:14px;
+    z-index:30;
+    backdrop-filter:blur(12px);
+  }
+  .top-tab-indicator{
+    top:8px;
+    left:8px;
+    height:calc(100% - 16px);
+    border-radius:16px;
+  }
+  .top-tab{
+    min-height:48px;
+    min-width:170px;
+    padding:11px 24px;
+    border-radius:999px;
+    font-size:.9rem;
+  }
+
+  #pool-view,
+  #official-view,
+  #rules-view{
+    padding:0 0 54px;
+  }
+
+  .top-grid,
+  .pool-trends-section,
+  .section-title,
+  #official-view,
+  #rules-view{
+    width:100vw;
+    margin-left:calc(50% - 50vw);
+  }
+
+  .top-grid{
+    display:block;
+    background:linear-gradient(180deg, rgba(255,255,255,.84), rgba(255,255,255,.95));
+    padding:28px 0 18px;
+    border-bottom:1px solid rgba(16,42,31,.08);
+  }
+  .leaderboard-card-full{
+    max-width:1400px;
+    margin:0 auto;
+    border-radius:0;
+    border-left:0;
+    border-right:0;
+    box-shadow:none;
+    background:transparent;
+    overflow:visible;
+  }
+  .leaderboard-card-full .card-header{
+    padding:0 34px 14px;
+  }
+  .leaderboard-card-full .card-title{
+    font-size:1.85rem;
+    color:#153628;
+  }
+  .leaderboard-card-full .card-sub{
+    color:#6d664f;
+    font-size:.95rem;
+  }
+  .leaderboard-wrap{
+    padding:0 34px 0;
+  }
+  .leaderboard-table{
+    background:#fffdfa;
+    border:1px solid rgba(16,42,31,.08);
+    box-shadow:0 18px 40px rgba(16,42,31,.06);
+    table-layout:auto;
+  }
+  .leaderboard-table th{
+    padding:16px 10px;
+    font-size:.72rem;
+    letter-spacing:.16em;
+  }
+  .leaderboard-table td{
+    padding:16px 10px;
+    font-size:1rem;
+  }
+  .leaderboard-table td:first-child,
+  .leaderboard-table th:first-child{
+    width:36%;
+    padding-left:20px;
+  }
+  .leaderboard-table td:last-child,
+  .leaderboard-table th:last-child{
+    width:16%;
+    padding-right:20px;
+  }
+
+  .pool-trends-section{
+    padding:34px 0 30px;
+    background:linear-gradient(180deg,#f5efe0 0%, #f8f4ea 100%);
+    border-top:1px solid rgba(16,42,31,.05);
+    border-bottom:1px solid rgba(16,42,31,.07);
+  }
+  .trends-card-full{
+    max-width:1400px;
+    margin:0 auto;
+    border-radius:0;
+    border:0;
+    box-shadow:none;
+    background:transparent;
+    overflow:visible;
+  }
+  .trends-card-full .card-header,
+  .trend-toolbar,
+  .trend-legend{
+    padding-left:34px;
+    padding-right:34px;
+  }
+  .trends-card-full .card-title{
+    font-size:1.65rem;
+  }
+  .trend-chart-wrap{
+    padding:6px 24px 0 16px;
+    min-height:400px;
+  }
+  .trend-chart{
+    height:400px;
+  }
+
+  .section-title{
+    max-width:1400px;
+    margin:0 auto;
+    padding:30px 34px 16px;
+  }
+  .section-title h2{
+    font-size:1.8rem;
+  }
+
+  .participant-grid{
+    max-width:1400px;
+    margin:0 auto;
+    padding:0 34px 24px;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:28px;
+  }
+  .participant-card{
+    border-radius:24px;
+    box-shadow:0 20px 44px rgba(16,42,31,.07);
+  }
+  .participant-top{
+    padding:16px 20px;
+  }
+  .participant-top h3{
+    font-size:1.55rem;
+  }
+  .participant-top p{
+    font-size:.92rem;
+  }
+  .scorebox .value{
+    font-size:2.3rem;
+  }
+  .participant-meta{
+    grid-template-columns:repeat(4,1fr);
+    padding:0 20px;
+  }
+  .participant-table-wrap{
+    padding:18px 20px 22px;
+  }
+  .participant-golfers-table th{
+    padding:13px 8px;
+  }
+  .participant-golfers-table td{
+    padding:13px 8px;
+    font-size:.9rem;
+  }
+
+  #official-view{
+    background:linear-gradient(180deg,#ffffff 0%, #faf7ef 100%);
+    border-top:1px solid rgba(16,42,31,.07);
+    border-bottom:1px solid rgba(16,42,31,.07);
+    padding-top:28px;
+  }
+  #official-view .all-golfers-card{
+    max-width:1400px;
+    margin:0 auto;
+    border-radius:0;
+    box-shadow:none;
+    border-left:0;
+    border-right:0;
+    background:transparent;
+    overflow:visible;
+  }
+  #official-view .card-header,
+  #official-view .cut-line,
+  #official-view .espn-wrap{
+    padding-left:34px;
+    padding-right:34px;
+  }
+  .espn-wrap{
+    padding-bottom:20px;
+  }
+  .espn-board{
+    min-width:0;
+    box-shadow:0 18px 40px rgba(16,42,31,.06);
+    border:1px solid rgba(16,42,31,.08);
+  }
+  .espn-board th{
+    padding:15px 10px;
+  }
+  .espn-board td{
+    padding:14px 10px;
+    font-size:.95rem;
+  }
+
+  #rules-view{
+    padding-top:30px;
+    background:linear-gradient(180deg,#f6f2e8 0%, #f7f5ef 100%);
+  }
+  #rules-view > article{
+    max-width:1400px;
+    margin:0 auto;
+    border-radius:0;
+    box-shadow:none;
+    border-left:0;
+    border-right:0;
+    background:transparent;
+    overflow:visible;
+  }
+  #rules-view .card-header,
+  #rules-view .rules-wrap{
+    padding-left:34px;
+    padding-right:34px;
+  }
+  .rules-wrap{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:22px;
+    padding-bottom:8px;
+  }
+  .rule-card{
+    margin-bottom:0;
+    border-radius:22px;
+    box-shadow:0 18px 40px rgba(16,42,31,.05);
+  }
+
+  .site-footer{
+    width:100%;
+    background:linear-gradient(180deg,#102a1f 0%, #0c2018 100%);
+    color:rgba(255,255,255,.82);
+    border-top:1px solid rgba(255,255,255,.08);
+  }
+  .site-footer-inner{
+    max-width:1400px;
+    margin:0 auto;
+    padding:24px 34px 28px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:16px;
+    font-size:.88rem;
+  }
+  .site-footer-brand{
+    font-family:"Playfair Display", Georgia, "Times New Roman", serif;
+    font-size:1.05rem;
+    color:#f4e7b1;
+  }
+}
+
+@media (min-width:1025px){
+  body{
+    overflow-x:hidden;
+  }
+  .page{
+    max-width:none;
+    width:100%;
+    margin:0;
+    padding:0 0 42px;
+  }
+  .hero{
+    width:100%;
+    margin:0 0 18px;
+    border-radius:0;
+    padding:42px clamp(28px,4vw,56px) 38px;
+    box-shadow:0 18px 44px rgba(16,42,31,.10);
+  }
+  .hero h1{
+    font-size:clamp(2.8rem,4.7vw,5.1rem);
+    letter-spacing:-.045em;
+  }
+  .top-tabs{
+    width:fit-content;
+    max-width:calc(100vw - 40px);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:18px auto 24px;
+    padding:8px;
+    border-radius:22px;
+    border:1px solid rgba(16,42,31,.10);
+    box-shadow:0 12px 28px rgba(16,42,31,.08);
+    background:rgba(255,255,255,.90);
+  }
+  .top-tab{
+    width:auto;
+    max-width:none;
+  }
+  .top-grid,
+  .pool-trends-section,
+  .section-title,
+  .participant-grid,
+  #official-view,
+  #rules-view{
+    width:100%;
+    max-width:none;
+    padding-left:0;
+    padding-right:0;
+  }
+  .leaderboard-card-full{
+    width:100%;
+    margin:0;
+    border-radius:0;
+    border-left:0;
+    border-right:0;
+    box-shadow:none;
+  }
+  .leaderboard-card-full .card-header{
+    padding:24px clamp(24px,3vw,46px) 12px;
+  }
+  .leaderboard-card-full .card-title{
+    font-size:1.7rem;
+  }
+  .leaderboard-card-full .leaderboard-wrap{
+    padding:0 0 14px;
+  }
+  .leaderboard-table th:first-child,
+  .leaderboard-table td:first-child{
+    padding-left:clamp(24px,3vw,46px);
+    width:36%;
+  }
+  .leaderboard-table th:last-child,
+  .leaderboard-table td:last-child{
+    padding-right:clamp(24px,3vw,46px);
+    width:18%;
+  }
+  .pool-trends-section{
+    margin-top:22px;
+  }
+  .trends-card-full{
+    width:100%;
+    margin:0;
+    border-radius:24px;
+  }
+  .trends-card-full .card-header{
+    padding:26px clamp(24px,3vw,46px) 10px;
+  }
+  .trends-card-full .trend-toolbar,
+  .trends-card-full .trend-legend{
+    padding-left:clamp(24px,3vw,46px);
+    padding-right:clamp(24px,3vw,46px);
+  }
+  .trends-card-full .trend-chart-wrap{
+    padding:10px clamp(18px,2.4vw,32px) 26px;
+    min-height:500px;
+  }
+  .trends-card-full .trend-chart{
+    height:500px;
+  }
+  .section-title{
+    margin:28px 0 16px;
+    padding:0 clamp(24px,3vw,46px);
+  }
+  .participant-grid{
+    gap:20px;
+    padding:0 clamp(20px,2.8vw,38px);
+  }
+  .all-golfers-card{
+    width:100%;
+    margin:0;
+    border-radius:24px;
+  }
+  .all-golfers-card .card-header,
+  #rules-view .card-header{
+    padding:24px clamp(24px,3vw,46px) 12px;
+  }
+  .espn-wrap{
+    padding:0 clamp(18px,2.4vw,32px) 18px;
+  }
+  .cut-line,
+  .rules-wrap{
+    padding-left:clamp(24px,3vw,46px);
+    padding-right:clamp(24px,3vw,46px);
+  }
+}
+
+.pool-trends-section,
+.section-title,
+#pool-view > .top-grid,
+#pool-view > .participant-grid,
+#rules-view > article{
+  width:min(1520px, calc(100vw - 40px));
+  margin-left:auto;
+  margin-right:auto;
+}
+
+@media (min-width:1100px){
+  .participant-grid{grid-template-columns:1fr 1fr;}
+  .participant-card{min-height:100%;}
+  .trend-chart-wrap{height:360px;}
+}
+
+@media (max-width:1024px){
+  .top-grid{grid-template-columns:1fr}
+  .participant-grid{grid-template-columns:1fr}
+}
+@media (max-width:720px){
+  .page{padding:10px}
+  .leaderboard-table th,.leaderboard-table td{padding:9px 4px;font-size:.8rem}
+  .leaderboard-table th:first-child,.leaderboard-table td:first-child{width:30%}
+  .participant-meta{grid-template-columns:1fr 1fr}
+  .golfer-stats{grid-template-columns:repeat(3,1fr)}
+  .espn-wrap{padding:0 6px 10px}
+}
+@media (max-width:520px){
+  .top-tabs{
+    display:flex;
+    justify-content:center;
+    width:fit-content;
+    max-width:calc(100vw - 20px);
+    margin:0 auto 16px;
+    padding:5px;
+    gap:6px;
+  }
+  .top-tab-indicator{
+    top:5px;
+    left:5px;
+    height:calc(100% - 10px);
+  }
+  .top-tab{
+    min-width:112px;
+    min-height:38px;
+    padding:8px 12px;
+    font-size:.8rem;
+  }
+  .hero{padding:20px 16px;border-radius:20px}
+  .leaderboard-table th,.leaderboard-table td{padding:8px 3px;font-size:.77rem}
+  .leaderboard-table th:first-child,.leaderboard-table td:first-child{width:31%}
+  .participant-top{
+    padding:10px 12px;
+    gap:10px;
+  }
+  .participant-title-row{
+    gap:8px;
+    min-width:0;
+  }
+  .participant-top h3{font-size:1.12rem}
+  .participant-top p{
+    font-size:.76rem;
+  }
+  .scorebox{
+    text-align:right;
+    min-width:0;
+    margin-left:auto;
+  }
+  .scorebox .value{font-size:1.55rem}
+  .scorebox .subvalue{display:block;margin-top:4px;font-size:.82rem;line-height:1;font-weight:700;color:rgba(255,255,255,.86)}
+  .participant-table-wrap{
+    padding:12px 10px 14px;
+  }
+  .participant-golfers-table th{
+    padding:9px 4px;
+    font-size:.58rem;
+    letter-spacing:.1em;
+  }
+  .participant-golfers-table td{
+    padding:9px 4px;
+    font-size:.75rem;
+  }
+  .participant-golfers-table td:first-child,
+  .participant-golfers-table th:first-child{
+    width:44%;
+    padding-left:8px;
+  }
+
+  .participant-golfers-table td:nth-child(2),
+  .participant-golfers-table th:nth-child(2){
+    width:10%;
+    padding-left:3px;
+  }
+  .participant-golfers-table td:not(:first-child),
+  .participant-golfers-table th:not(:first-child){
+    font-size:.68rem;
+  }
+}
+
+@media (max-width: 767px){
+  .pool-trends-section .trend-chart-wrap,
+  .trends-card-full .trend-chart-wrap{
+    height:500px !important;
+    min-height:500px !important;
+    width:100%;
+    padding:8px 8px 28px 4px !important;
+  }
+  .pool-trends-section .trend-chart,
+  .trends-card-full .trend-chart{
+    width:100%;
+    height:100% !important;
+    display:block;
+  }
+  .axis-label,.round-label{
+    font-size:13px !important;
+  }
+  .trend-legend{
+    gap:10px 16px;
+  }
+  .legend-item{
+    font-size:.86rem;
+  }
+}
+
+@media (min-width: 1024px){
+  .pool-trends-section .card{
+    border-radius:0;
+  }
+  .pool-trends-section .trend-chart-wrap,
+  .trends-card-full .trend-chart-wrap{
+    height:340px !important;
+    width:100%;
+    padding:0 28px 26px 18px !important;
+  }
+  .pool-trends-section .trend-chart,
+  .trends-card-full .trend-chart{
+    width:100%;
+    height:100% !important;
+    display:block;
+  }
+}
+
+/* Top nav button polish */
+.top-tabs{
+  gap:12px;
+  padding:8px;
+  border-radius:22px;
+  background:rgba(252,250,244,.92);
+  border:1px solid rgba(16,42,31,.12);
+  box-shadow:0 10px 24px rgba(16,42,31,.08);
+}
+.top-tab-indicator{
+  display:none;
+}
+.top-tab{
+  min-width:148px;
+  min-height:46px;
+  padding:11px 22px;
+  border-radius:999px;
+  border:1px solid rgba(16,42,31,.16);
+  background:linear-gradient(180deg,var(--green-soft) 0%,var(--green-dark) 100%);
+  color:#f7f1de;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08), 0 8px 18px rgba(16,42,31,.10);
+}
+.top-tab:hover{
+  transform:translateY(-1px);
+  filter:brightness(1.03);
+}
+.top-tab.active{
+  color:#fff7dc;
+  background:linear-gradient(180deg,#1c4936 0%,#102a1f 100%);
+  border-color:rgba(16,42,31,.28);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.10), 0 12px 22px rgba(16,42,31,.16);
+}
+@media (max-width: 640px){
+  .top-tabs{
+    width:calc(100vw - 28px);
+    max-width:calc(100vw - 28px);
+    gap:8px;
+    padding:7px;
+  }
+  .top-tab{
+    flex:1 1 0;
+    min-width:0;
+    padding:10px 12px;
+  }
+}
+
+/* Leaderboard cleanup */
+.leaderboard-card-clean{
+  background:rgba(255,255,255,.92) !important;
+  border:1px solid var(--border) !important;
+  box-shadow:0 16px 42px rgba(16,42,31,.08) !important;
+}
+.leaderboard-card-clean .card-header,
+.leaderboard-card-clean .leaderboard-wrap{
+  background:transparent !important;
+}
+.leaderboard-table{
+  background:#fff !important;
+}
+.leaderboard-table td{
+  background:#fff !important;
+  border-bottom:1px solid rgba(16,42,31,.08) !important;
+  color:#1f2a22;
+}
+.leaderboard-table tbody tr:nth-child(even) td{
+  background:#fff !important;
+}
+.leaderboard-table td:first-child,
+.leaderboard-table th:first-child{
+  text-align:center !important;
+  padding-left:12px;
+}
+.leaderboard-table .participant-name{
+  color:#1a5fb4 !important;
+  text-decoration:underline !important;
+  font-weight:700;
+  display:inline-block;
+}
+.leaderboard-table .participant-name:hover{
+  color:#0d3f8a !important;
+  text-decoration:underline;
+}
+.participant-link-inner{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* final visual overrides */
+.hero,
+.top-tabs,
+.card,
+.participant-card,
+.all-golfers-card,
+.rule-card,
+.leaderboard-table,
+.participant-golfers-table,
+.espn-board{
+  border:2px solid #000 !important;
+}
+
+/* Simplified leaderboard */
+.top-tabs{
+  gap:12px !important;
+  padding:0 !important;
+  width:auto !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  position:static !important;
+}
+.top-tab-indicator{display:none !important;}
+.top-tab{
+  background:linear-gradient(180deg,var(--green) 0%,var(--green-dark) 100%) !important;
+  color:#fff !important;
+  border:2px solid #000 !important;
+  border-radius:999px !important;
+  box-shadow:none !important;
+}
+.top-tab.active{
+  filter:brightness(1.05);
+}
+.top-grid{
+  display:block !important;
+  background:transparent !important;
+  padding:0 !important;
+  width:min(1180px, calc(100vw - 24px)) !important;
+  margin:0 auto !important;
+}
+.leaderboard-card-full,
+.leaderboard-card-clean{
+  max-width:none !important;
+  margin:0 !important;
+  background:#fff !important;
+  border:2px solid #000 !important;
+  border-radius:16px !important;
+  box-shadow:none !important;
+  overflow:hidden !important;
+}
+.leaderboard-card-clean .card-header{
+  padding:0 !important;
+}
+.leaderboard-card-clean .card-title,
+.leaderboard-card-clean .card-sub{
+  display:none !important;
+}
+.leaderboard-wrap{
+  padding:0 !important;
+}
+.leaderboard-table{
+  width:100% !important;
+  border-collapse:collapse !important;
+  table-layout:fixed !important;
+  border:0 !important;
+  background:#fff !important;
+}
+.leaderboard-table thead th{
+  background:var(--green) !important;
+  color:#fff !important;
+  padding:14px 10px !important;
+  font-size:.8rem !important;
+  text-transform:uppercase !important;
+  letter-spacing:.08em !important;
+  border-bottom:2px solid #000 !important;
+}
+.leaderboard-table td{
+  background:transparent !important;
+  color:#1f2a22 !important;
+  padding:14px 10px !important;
+  border-bottom:1px solid #d7d7d7 !important;
+  font-size:.96rem !important;
+  text-align:center !important;
+  font-weight:600 !important;
+}
+.leaderboard-table tbody tr:last-child td{
+  border-bottom:0 !important;
+}
+.leaderboard-table th:first-child,
+.leaderboard-table td:first-child{
+  width:34% !important;
+  text-align:center !important;
+  padding-left:10px !important;
+}
+.leaderboard-table th:last-child,
+.leaderboard-table td:last-child{
+  width:12% !important;
+  padding-right:10px !important;
+}
+.leaderboard-table tbody tr:nth-child(even):not(.place-1):not(.place-2):not(.place-3) td{
+  background:#fafafa !important;
+}
+.leaderboard-table .participant-name{
+  color:#1a5fb4 !important;
+  text-decoration:underline !important;
+  font-weight:700 !important;
+  display:inline-block !important;
+}
+.participant-link-inner{
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+}
+
+.place-1 td,
+.place-2 td,
+.place-3 td{
+  background:transparent !important;
+}
+
+.place-1 td:first-child{
+  background:linear-gradient(90deg,#fff8dc,#f4e19c) !important;
+  font-weight:800 !important;
+  border-left:4px solid #d4af37 !important;
+}
+.place-2 td:first-child{
+  background:linear-gradient(90deg,#f3f3f3,#dadada) !important;
+  font-weight:700 !important;
+  border-left:4px solid #c0c0c0 !important;
+}
+.place-3 td:first-child{
+  background:linear-gradient(90deg,#f4e2d7,#dfa881) !important;
+  font-weight:700 !important;
+  border-left:4px solid #cd7f32 !important;
+}
+
+.place-1 td:first-child .participant-link-inner{
+  animation:firstPlacePulse 1.6s ease-in-out infinite !important;
+  border-radius:999px;
+}
+
+@keyframes firstPlacePulse {
+  0%,100% { box-shadow: inset 0 0 0 0 rgba(212,175,55,.0), 0 0 0 0 rgba(212,175,55,.40); }
+  50% { box-shadow: inset 0 0 0 999px rgba(255,255,255,.03), 0 0 0 8px rgba(212,175,55,0); }
+}
+
+@media (max-width:700px){
+  .top-grid{ width:calc(100vw - 14px) !important; }
+  .leaderboard-table thead th,
+  .leaderboard-table td{
+    padding:12px 6px !important;
+    font-size:.86rem !important;
+  }
+  .leaderboard-table th:first-child,
+  .leaderboard-table td:first-child{ width:40% !important; }
+  .leaderboard-table th:last-child,
+  .leaderboard-table td:last-child{ width:14% !important; }
+}
 </style>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
 </head>
-
 <body>
+<div class="page">
+  <section class="hero full-bleed">
+    <div class="hero-inner">
+      <h1>🔺 TKE 🔺 Masters Pool 2026</h1>
+    </div>
+  </section>
 
-<div class="hero">
-  <h1>🔺 TKE 🔺 Masters Pool 2026</h1>
-</div>
+  <nav class="top-tabs" aria-label="Primary views">
+    <button class="top-tab active" data-tab-target="pool-view" type="button">Pool</button>
+    <button class="top-tab" data-tab-target="rules-view" type="button">Rules</button>
+  </nav>
 
-<div class="container">
+  <section id="pool-view" class="tab-panel active">
+    <section class="top-grid">
+      <article class="card leaderboard-card-full leaderboard-card-clean">
+        <div class="card-header">
+          <h2 class="card-title">Leaderboard</h2>
+          <p class="card-sub"></p>
+        </div>
+        <div class="leaderboard-wrap">
+          <table class="leaderboard-table">
+            <thead>
+              <tr>
+                <th>Participant</th>
+                <th>R1</th>
+                <th>R2</th>
+                <th>R3</th>
+                <th>R4</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody id="pool-standings-tbody"></tbody>
+          </table>
+        </div>
+      </article>
+    </section>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Participant</th>
-        <th>R1</th>
-        <th>R2</th>
-        <th>R3</th>
-        <th>R4</th>
-        <th>Total</th>
-      </tr>
-    </thead>
-    <tbody id="leaderboard"></tbody>
-  </table>
+    <div class="section-title">
+      <h2>Participant Scoreboards</h2>
+      <p></p>
+    </div>
 
-  <div id="cards"></div>
+    <section class="participant-grid" id="participant-grid"></section>
+  </section>
 
+  <section id="rules-view" class="tab-panel">
+    <article class="card">
+      <div class="card-header">
+        <h2 class="card-title">Rules</h2>
+        <p class="card-sub">Pool rules and format for the TKE Masters Pool.</p>
+      </div>
+      <div class="rules-wrap">
+        <div class="rule-card">
+          <h3>How the Pool Works</h3>
+          <p>The page below is driven by the live Google Sheet feed for your pool. Participant totals and trend lines update automatically from that source.</p>
+          <ul>
+            <li>Each participant drafts 8 golfers before the tournament begins.</li>
+            <li>For each round, only the lowest 6 golfer scores count toward that participant's round total.</li>
+            <li>The 6 counting golfers can change from round to round.</li>
+          </ul>
+        </div>
+
+        <div class="rule-card">
+          <h3>Scoring, Cut Rules, and Winning</h3>
+          <ul>
+            <li>If a golfer is cut, disqualified, or withdraws, a 10-stroke penalty is applied for that golfer.</li>
+            <li>Missed-cut golfers can be represented with 82s in later rounds for tracking, but the pool logic is driven by participant totals and penalties.</li>
+            <li>Round 1 through Round 4 participant scores are added together, then penalties are applied to reach the adjusted total.</li>
+            <li>The leaderboard is ordered by the lowest adjusted total.</li>
+            <li>The Pool Trends chart shows cumulative strokes behind the leader after each round: R1, R2, R3, and R4.</li>
+            <li>The participant with the lowest final adjusted total wins the pool.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </section>
 </div>
 
 <script>
-const DATA_URL = "https://script.google.com/macros/s/AKfycbwbqpGDuDYHy34TMxDbbSM37w0yFvClWmejrJGgMnCpTAPJfW1FaawDet29-WIVgSWpiw/exec";
+document.addEventListener('DOMContentLoaded', function () {
+  const DATA_URL = "https://script.google.com/macros/s/AKfycbwbqpGDuDYHy34TMxDbbSM37w0yFvClWmejrJGgMnCpTAPJfW1FaawDet29-WIVgSWpiw/exec";
+  const REFRESH_MS = 30000;
 
-function parseNum(v){ return Number(v)||0; }
+  const tabs = document.querySelectorAll('.top-tab');
+  const panels = document.querySelectorAll('.tab-panel');
+  const trendChart = document.getElementById('trend-chart');
+  const trendLegend = document.getElementById('trend-legend');
+  const trendNote = document.getElementById('trend-note');
+  const standingsBody = document.getElementById('pool-standings-tbody');
+  const participantGrid = document.getElementById('participant-grid');
+  const leaderboardSub = document.querySelector('#pool-view .strip-card .card-sub');
 
-function parsePar(v){
-  if(!v || v==="—" || v==="MC") return 999;
-  if(v==="E") return 0;
-  return Number(v.replace("+",""));
-}
+  const participantColors = {
+    Shaun: '#174230',
+    Brian: '#a5852e',
+    Phil: '#6b7d89',
+    Caruso: '#8a5a4a',
+    Demitri: '#4e6f63',
+    Wilmar: '#7b6c54'
+  };
 
-/* 🔥 FIXED LOGIC */
-function calcTop6(participant){
-  const sorted = participant.golfers
-    .slice()
-    .sort((a,b)=>parseNum(a.total)-parseNum(b.total))
-    .slice(0,6);
+  let latestParticipants = [];
 
-  let total = 0;
-
-  sorted.forEach(g=>{
-    if(g.status==="Missed Cut"){
-      if(parseNum(g.r3)===82) total+=10;
-      if(parseNum(g.r4)===82) total+=10;
-    } else {
-      const val = parsePar(g.to_par);
-      if(val<900) total+=val;
-    }
-  });
-
-  return total;
-}
-
-function parFormat(v){
-  if(v===0) return "E";
-  if(v>0) return "+"+v;
-  return v;
-}
-
-function parClass(v){
-  if(v<0) return "under";
-  if(v>0) return "over";
-  return "even";
-}
-
-async function load(){
-  const res = await fetch(DATA_URL);
-  const data = await res.json();
-
-  const map = {};
-
-  data.forEach(r=>{
-    if(!map[r.participant]){
-      map[r.participant]={
-        name:r.participant,
-        r1:r.r1p,
-        r2:r.r2p,
-        r3:r.r3p,
-        r4:r.r4p,
-        total:r.totalp,
-        golfers:[]
-      };
-    }
-
-    map[r.participant].golfers.push({
-      name:r.golfer,
-      to_par:r.to_par,
-      status:r.status,
-      r1:r.r1,
-      r2:r.r2,
-      r3:r.r3,
-      r4:r.r4,
-      total:r.total
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      const targetId = tab.getAttribute('data-tab-target');
+      tabs.forEach(function(t) {
+        t.classList.remove('active');
+        t.removeAttribute('aria-current');
+      });
+      panels.forEach(function(p) { p.classList.remove('active'); });
+      tab.classList.add('active');
+      tab.setAttribute('aria-current', 'page');
+      const panel = document.getElementById(targetId);
+      if (panel) {
+        panel.classList.add('active');
+        if (targetId === 'pool-view') setTimeout(renderChart, 30);
+        setTimeout(function() {
+          panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 50);
+      }
     });
   });
 
-  const players = Object.values(map).sort((a,b)=>a.total-b.total);
+  function slugify(value) {
+    return String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  }
 
-  /* LEADERBOARD */
-  document.getElementById("leaderboard").innerHTML =
-    players.map((p,i)=>{
-      let cls = i===0?"place-1":i===1?"place-2":i===2?"place-3":"";
-      return `<tr class="${cls}">
-        <td>${p.name}</td>
-        <td>${p.r1}</td>
-        <td>${p.r2}</td>
-        <td>${p.r3}</td>
-        <td>${p.r4}</td>
-        <td>${p.total}</td>
-      </tr>`;
-    }).join("");
+  function parseNumber(value, fallback = 0) {
+    if (value === null || value === undefined || value === '') return fallback;
+    const cleaned = String(value).replace(/,/g, '').trim();
+    const num = Number(cleaned);
+    return Number.isFinite(num) ? num : fallback;
+  }
 
-  /* CARDS */
-  document.getElementById("cards").innerHTML =
-    players.map(p=>{
-      const t6 = calcTop6(p);
+  function parseToPar(value) {
+    const str = String(value || '').trim().toUpperCase();
+    if (!str || str === '—') return 999;
+    if (str === 'E') return 0;
+    const num = Number(str.replace('+', ''));
+    return Number.isFinite(num) ? num : 999;
+  }
 
-      return `
-      <div class="card">
-        <div class="card-header">
-          <div>${p.name}</div>
-          <div class="score">
-            <div class="main">${p.total}</div>
-            <div class="sub ${parClass(t6)}">Top 6: ${parFormat(t6)}</div>
-          </div>
-        </div>
+  function formatScore(value) {
+    const str = String(value || '').trim();
+    if (!str || str === '0') return '0';
+    return str;
+  }
 
-        <div class="meta">
-          <div>R1 ${p.r1}</div>
-          <div>R2 ${p.r2}</div>
-          <div>R3 ${p.r3}</div>
-          <div>R4 ${p.r4}</div>
-        </div>
+  function formatToday(value, status) {
+    const str = String(value || '').trim();
+    if (!str || str === '0') {
+      return status === 'Missed Cut' ? 'MC' : '—';
+    }
+    return str;
+  }
 
-        <table class="small-table">
-          <tr>
-            <th>Golfer</th>
-            <th>R1</th>
-            <th>R2</th>
-            <th>R3</th>
-            <th>R4</th>
-            <th>Score</th>
-          </tr>
+  function formatThru(value, status) {
+    const str = String(value || '').trim();
+    if (!str || str === '0') {
+      if (status === 'Missed Cut') return 'MC';
+      if (status === 'Scheduled') return '—';
+      return '—';
+    }
+    return str;
+  }
 
-          ${p.golfers.map(g=>`
-            <tr>
-              <td>${g.name}</td>
-              <td>${g.r1||"-"}</td>
-              <td>${g.r2||"-"}</td>
-              <td>${g.r3||"-"}</td>
-              <td>${g.r4||"-"}</td>
-              <td class="${g.to_par<0?"score-under":g.to_par>0?"score-over":"score-even"}">
-                ${g.to_par}
-              </td>
-            </tr>
-          `).join("")}
-        </table>
-      </div>
-      `;
-    }).join("");
-}
+  function scoreClass(toPar) {
+    const num = parseToPar(toPar);
+    if (num < 0) return 'score-under';
+    if (num === 0) return 'score-even';
+    return 'score-over';
+  }
 
-load();
-setInterval(load,30000);
+  function formatParTotal(num) {
+    if (!Number.isFinite(num)) return 'E';
+    if (num === 0) return 'E';
+    return num > 0 ? ('+' + num) : String(num);
+  }
+
+  function isPenaltyStatus(status) {
+    const normalized = String(status || '').trim().toLowerCase();
+    return normalized === 'missed cut' || normalized === 'mc' || normalized === 'cut' || normalized === 'withdrawn' || normalized === 'wd' || normalized === 'dq' || normalized === 'disqualified';
+  }
+
+  function hasNumericRoundScore(value) {
+    if (value === null || value === undefined) return false;
+    const str = String(value).trim();
+    if (!str || str === '—') return false;
+    return Number.isFinite(Number(str.replace(/,/g, '')));
+  }
+
+  function getPenaltyStrokeCount(golfer) {
+    if (!isPenaltyStatus(golfer.status)) return 0;
+
+    const normalized = String(golfer.status || '').trim().toLowerCase();
+
+    // Missed-cut golfers often carry placeholder 82s for R3/R4 in the feed.
+    // Pool scoring still treats those later rounds as penalty days (+10 each).
+    if (normalized === 'missed cut' || normalized === 'mc' || normalized === 'cut') {
+      return 2;
+    }
+
+    return ['r1', 'r2', 'r3', 'r4'].reduce(function(total, key) {
+      return total + (hasNumericRoundScore(golfer[key]) ? 0 : 1);
+    }, 0);
+  }
+
+  function getEffectiveGolferTotal(golfer) {
+    return parseNumber(golfer.golfer_total, 9999) + (getPenaltyStrokeCount(golfer) * 10);
+  }
+
+  function getCountingToParTotal(participant) {
+    const countingGolfers = participant.golfers.filter(function(g) { return g.counting; });
+    let total = 0;
+    let hasValue = false;
+
+    countingGolfers.forEach(function(g) {
+      const val = parseToPar(g.to_par);
+      if (Number.isFinite(val) && val < 900) {
+        total += val;
+        hasValue = true;
+      }
+      total += getPenaltyStrokeCount(g) * 10;
+      hasValue = true;
+    });
+
+    return hasValue ? total : null;
+  }
+
+  function getCountingStrokeTotal(participant) {
+    const countingGolfers = participant.golfers.filter(function(g) { return g.counting; });
+    let total = 0;
+    let hasValue = false;
+
+    countingGolfers.forEach(function(g) {
+      const val = getEffectiveGolferTotal(g);
+      if (Number.isFinite(val) && val < 9999) {
+        total += val;
+        hasValue = true;
+      }
+    });
+
+    return hasValue ? total : participant.adjusted_total;
+  }
+
+  function getEffectiveRoundScore(golfer, roundKey) {
+    const numericValue = parseNumber(golfer[roundKey], null);
+    const isPenalty = isPenaltyStatus(golfer.status);
+
+    if (!isPenalty) {
+      return Number.isFinite(numericValue) && numericValue > 0 ? numericValue : 0;
+    }
+
+    const normalized = String(golfer.status || '').trim().toLowerCase();
+    if (normalized === 'missed cut' || normalized === 'mc' || normalized === 'cut') {
+      if (roundKey === 'r1' || roundKey === 'r2') {
+        return Number.isFinite(numericValue) && numericValue > 0 ? numericValue : 0;
+      }
+
+      // For leaderboard row parity, missed-cut rounds should display as full
+      // adjusted round scores (82) instead of penalty-only values (10).
+      if (Number.isFinite(numericValue) && numericValue > 0) {
+        return numericValue;
+      }
+      return 82;
+    }
+
+    if (Number.isFinite(numericValue) && numericValue > 0) {
+      return numericValue;
+    }
+
+    return 10;
+  }
+
+  function applyDerivedParticipantTotals(participant) {
+    const countingGolfers = participant.golfers.filter(function(g) { return g.counting; });
+    const roundMap = {
+      participant_r1: 'r1',
+      participant_r2: 'r2',
+      participant_r3: 'r3',
+      participant_r4: 'r4'
+    };
+
+    Object.keys(roundMap).forEach(function(participantKey) {
+      participant[participantKey] = countingGolfers.reduce(function(sum, golfer) {
+        return sum + getEffectiveRoundScore(golfer, roundMap[participantKey]);
+      }, 0);
+    });
+
+    participant.adjusted_total = getCountingStrokeTotal(participant);
+  }
+
+  function getRoundPenaltyToPar(golfer, roundKey) {
+    if (!isPenaltyStatus(golfer.status)) return null;
+
+    const normalized = String(golfer.status || '').trim().toLowerCase();
+    if (normalized === 'missed cut' || normalized === 'mc' || normalized === 'cut') {
+      return (roundKey === 'r3' || roundKey === 'r4') ? 10 : null;
+    }
+
+    const numericValue = parseNumber(golfer[roundKey], null);
+    if (Number.isFinite(numericValue) && numericValue > 0) {
+      return numericValue - 72;
+    }
+
+    return 10;
+  }
+
+  function getGolferRoundToPar(golfer, roundKey) {
+    const penaltyToPar = getRoundPenaltyToPar(golfer, roundKey);
+    if (penaltyToPar !== null) return penaltyToPar;
+
+    const numericValue = parseNumber(golfer[roundKey], null);
+    if (Number.isFinite(numericValue) && numericValue > 0) {
+      return numericValue - 72;
+    }
+
+    return 0;
+  }
+
+  function getParticipantRoundToPar(participant, roundKey) {
+    const countingGolfers = participant.golfers.filter(function(g) { return g.counting; });
+    return countingGolfers.reduce(function(sum, golfer) {
+      return sum + getGolferRoundToPar(golfer, roundKey);
+    }, 0);
+  }
+
+  function getDisplayedScoreToPar(golfer) {
+    if (golfer.counting && isPenaltyStatus(golfer.status)) {
+      const baseToPar = parseToPar(golfer.to_par);
+      const adjustedToPar = (Number.isFinite(baseToPar) && baseToPar < 900 ? baseToPar : 0) + (getPenaltyStrokeCount(golfer) * 10);
+      return formatParTotal(adjustedToPar);
+    }
+    if (golfer.status === 'Missed Cut') return 'MC';
+    return golfer.to_par;
+  }
+
+  function displayedScoreClass(golfer) {
+    if (golfer.counting && isPenaltyStatus(golfer.status)) {
+      const baseToPar = parseToPar(golfer.to_par);
+      const adjustedToPar = (Number.isFinite(baseToPar) && baseToPar < 900 ? baseToPar : 0) + (getPenaltyStrokeCount(golfer) * 10);
+      return scoreClass(adjustedToPar);
+    }
+    return scoreClass(golfer.to_par);
+  }
+
+  function parClassFromNumber(num) {
+    if (num === null || num === undefined) return 'even';
+    if (num < 0) return 'under';
+    if (num > 0) return 'over';
+    return 'even';
+  }
+
+  function buildParticipants(rows) {
+    const grouped = new Map();
+
+    rows.forEach(function(row) {
+      const id = row.participant_id;
+      if (!grouped.has(id)) {
+        grouped.set(id, {
+          participant_id: id,
+          participant_name: row.participant_name,
+          rank: parseNumber(row.rank, 999),
+          participant_r1: parseNumber(row.participant_r1),
+          participant_r2: parseNumber(row.participant_r2),
+          participant_r3: parseNumber(row.participant_r3),
+          participant_r4: parseNumber(row.participant_r4),
+          Cuts: parseNumber(row.Cuts),
+          adjusted_total: parseNumber(row.adjusted_total),
+          thru_total: parseNumber(row.thru_total),
+          thru_t6: parseNumber(row.thru_t6),
+          t6_remaining_holes: parseNumber(row.t6_remaining_holes),
+          golfers: []
+        });
+      }
+
+      grouped.get(id).golfers.push({
+        golfer_id: row.golfer_id,
+        golfer_name: row.golfer_name,
+        to_par: row.to_par,
+        Live_Score: row.Live_Score,
+        thru: row.thru,
+        status: row.status,
+        r1: row.r1,
+        r2: row.r2,
+        r3: row.r3,
+        r4: row.r4,
+        golfer_total: row.golfer_total
+      });
+    });
+
+    const participants = Array.from(grouped.values()).sort(function(a, b) {
+      if (a.rank !== b.rank) return a.rank - b.rank;
+      return a.adjusted_total - b.adjusted_total;
+    });
+
+    participants.forEach(function(participant) {
+      participant.golfers.forEach(function(golfer) {
+        golfer.penalty_strokes = getPenaltyStrokeCount(golfer) * 10;
+        golfer.effective_total = getEffectiveGolferTotal(golfer);
+      });
+
+      const countedIds = new Set(participant.golfers
+        .slice()
+        .sort(function(a, b) { return a.effective_total - b.effective_total; })
+        .slice(0, 6)
+        .map(function(g) { return g.golfer_id; }));
+
+      participant.golfers.forEach(function(golfer) {
+        golfer.counting = countedIds.has(golfer.golfer_id);
+      });
+
+      participant.golfers.sort(function(a, b) {
+        return a.effective_total - b.effective_total;
+      });
+
+      applyDerivedParticipantTotals(participant);
+    });
+
+    participants.sort(function(a, b) {
+      if (a.adjusted_total !== b.adjusted_total) return a.adjusted_total - b.adjusted_total;
+      if (a.participant_r1 !== b.participant_r1) return a.participant_r1 - b.participant_r1;
+      return String(a.participant_name).localeCompare(String(b.participant_name));
+    });
+
+    participants.forEach(function(participant, index) {
+      participant.rank = index + 1;
+    });
+
+    return participants;
+  }
+
+  function renderStandings(participants) {
+    standingsBody.innerHTML = participants.map(function(p, index) {
+      const medalClass = index === 0 ? 'place-1' : index === 1 ? 'place-2' : index === 2 ? 'place-3' : '';
+      const round1Total = getParticipantRoundToPar(p, 'r1');
+      const round2Total = getParticipantRoundToPar(p, 'r2');
+      const round3Total = getParticipantRoundToPar(p, 'r3');
+      const round4Total = getParticipantRoundToPar(p, 'r4');
+      const round1Score = formatParTotal(round1Total);
+      const round2Score = formatParTotal(round2Total);
+      const round3Score = formatParTotal(round3Total);
+      const round4Score = formatParTotal(round4Total);
+      const totalScore = getCountingToParTotal(p);
+      return '<tr class="' + medalClass + '">' +
+        '<td><a href="#' + slugify(p.participant_name) + '" class="participant-name"><span class="participant-link-inner"><span>' + p.participant_name + '</span></span></a></td>' +
+        '<td class="' + scoreClass(round1Score) + '">' + round1Score + '</td>' +
+        '<td class="' + scoreClass(round2Score) + '">' + round2Score + '</td>' +
+        '<td class="' + scoreClass(round3Score) + '">' + round3Score + '</td>' +
+        '<td class="' + scoreClass(round4Score) + '">' + round4Score + '</td>' +
+        '<td class="' + (totalScore < 0 ? 'score-under' : totalScore > 0 ? 'score-over' : 'score-even') + '">' + formatParTotal(totalScore) + '</td>' +
+      '</tr>';
+    }).join('');
+
+    if (leaderboardSub) {
+      leaderboardSub.textContent = 'Live participant standings shown as score to par by round and total. No stroke totals are shown in leaderboard cells.';
+    }
+  }
+
+  function participantSubtitle(rank) {
+    if (rank === 1) return 'Rank 1';
+    return 'Rank ' + rank;
+  }
+
+  function renderParticipants(participants) {
+    participantGrid.innerHTML = participants.map(function(p) {
+      return '<article class="card participant-card">' +
+        '<div class="participant-top">' +
+          '<div class="participant-title-row">' +
+            '<h3 id="' + slugify(p.participant_name) + '">' + p.participant_name + '</h3>' +
+            '<p>' + participantSubtitle(p.rank) + '</p>' +
+          '</div>' +
+          '<div class="scorebox">' +
+            '<span class="value">' + getCountingStrokeTotal(p) + '</span>' +
+            '<span class="subvalue">(' + formatParTotal(getCountingToParTotal(p)) + ')</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="participant-meta">' +
+          '<div class="meta-item"><span class="meta-k">Round 1</span><span class="meta-v">' + p.participant_r1 + '</span></div>' +
+          '<div class="meta-item"><span class="meta-k">Round 2</span><span class="meta-v">' + p.participant_r2 + '</span></div>' +
+          '<div class="meta-item"><span class="meta-k">Thru T6</span><span class="meta-v">' + p.thru_t6 + '</span></div>' +
+          '<div class="meta-item"><span class="meta-k">Remaining</span><span class="meta-v">' + p.t6_remaining_holes + '</span></div>' +
+        '</div>' +
+        '<div class="participant-table-wrap">' +
+          '<table class="participant-golfers-table">' +
+            '<thead><tr><th>Golfer</th><th>Thru</th><th>R1</th><th>R2</th><th>R3</th><th>R4</th><th>Score</th><th>Total</th></tr></thead>' +
+            '<tbody>' +
+              p.golfers.map(function(g) {
+                const rowClass = g.counting
+                  ? (isPenaltyStatus(g.status) ? 'counting-penalty' : 'counting-live')
+                  : '';
+                return '<tr class="' + rowClass + '">' +
+                  '<td>' + g.golfer_name + (g.counting ? ' *' : '') + '</td>' +
+                  '<td>' + formatThru(g.thru, g.status) + '</td>' +
+                  '<td>' + (g.r1 || '—') + '</td>' +
+                  '<td>' + (g.r2 || '—') + '</td>' +
+                  '<td>' + (g.r3 || '—') + '</td>' +
+                  '<td>' + (g.r4 || '—') + '</td>' +
+                  '<td class="' + displayedScoreClass(g) + '">' + getDisplayedScoreToPar(g) + '</td>' +
+                  '<td>' + (Number.isFinite(g.effective_total) && g.effective_total < 9999 ? g.effective_total : (g.golfer_total || '—')) + '</td>' +
+                '</tr>';
+              }).join('') +
+            '</tbody>' +
+          '</table>' +
+        '</div>' +
+      '</article>';
+    }).join('');
+  }
+
+  function buildBehindSeries(participants) {
+    const roundKeys = ['participant_r1', 'participant_r2', 'participant_r3', 'participant_r4'];
+
+    const cumulativeTotalsByParticipant = participants.map(function(p) {
+      let running = 0;
+      return roundKeys.map(function(key) {
+        const roundValue = parseNumber(p[key], 0);
+        if (roundValue <= 0) return null;
+        running += roundValue;
+        return running;
+      });
+    });
+
+    const leaderByRound = roundKeys.map(function(_, roundIndex) {
+      const vals = cumulativeTotalsByParticipant
+        .map(function(totals) { return totals[roundIndex]; })
+        .filter(function(v) { return v !== null && v > 0; });
+      return vals.length ? Math.min.apply(null, vals) : 0;
+    });
+
+    return participants.map(function(p, participantIndex) {
+      return {
+        name: p.participant_name,
+        color: participantColors[p.participant_name] || '#4e6f63',
+        values: cumulativeTotalsByParticipant[participantIndex].map(function(total, roundIndex) {
+          return total !== null ? total - leaderByRound[roundIndex] : null;
+        })
+      };
+    });
+  }
+
+  function getScale(series) {
+    const vals = series.flatMap(function(s) {
+      return s.values.filter(function(v) { return v !== null; });
+    });
+    const max = Math.max.apply(null, vals.concat([5]));
+    return { min: 0, max: Math.ceil((max + 2) / 5) * 5 };
+  }
+
+  function yFor(value, min, max, top, bottom) {
+    if (max === min) return (top + bottom) / 2;
+    return top + ((value - min) / (max - min)) * (bottom - top);
+  }
+
+  function buildLabels(min, max) {
+    const step = max <= 20 ? 5 : max <= 40 ? 10 : max <= 80 ? 20 : 25;
+    const out = [];
+    for (let v = min; v <= max + 0.001; v += step) out.push(v);
+    if (out[out.length - 1] !== max) out.push(max);
+    return out;
+  }
+
+  function renderLegend(chartData) {
+    if (!trendLegend) return;
+    trendLegend.innerHTML = chartData.map(function(p) {
+      return '<span class="legend-item"><span class="legend-line" style="color:' + p.color + '"></span>' + p.name + '</span>';
+    }).join('');
+  }
+
+  function renderChart() {
+    if (!trendChart || !trendLegend || !trendNote || !latestParticipants.length) return;
+    const series = buildBehindSeries(latestParticipants);
+    const scale = getScale(series);
+    const axisLabels = buildLabels(scale.min, scale.max);
+
+    renderLegend(series);
+    trendNote.textContent = 'Cumulative strokes behind leader after R1, R2, R3, and R4. Leader = 0.';
+
+    const width = 960, height = 250;
+    const left = 72, right = 920, top = 24, bottom = 206;
+    const x = [72, 354, 636, 918];
+
+    let svg = '';
+    svg += '<rect x="0" y="0" width="' + width + '" height="' + height + '" fill="transparent"></rect>';
+    svg += '<line x1="' + left + '" y1="' + top + '" x2="' + left + '" y2="' + bottom + '" class="axis-line"></line>';
+    svg += '<line x1="' + left + '" y1="' + bottom + '" x2="' + right + '" y2="' + bottom + '" class="axis-line"></line>';
+
+    axisLabels.forEach(function(v) {
+      const y = yFor(v, scale.min, scale.max, top, bottom);
+      svg += '<line x1="' + left + '" y1="' + y + '" x2="' + right + '" y2="' + y + '" class="grid-line"></line>';
+      svg += '<text x="14" y="' + (y + 4) + '" class="axis-label">' + v + '</text>';
+    });
+
+    ['R1','R2','R3','R4'].forEach(function(r, i) {
+      svg += '<text x="' + x[i] + '" y="236" text-anchor="middle" class="round-label">' + r + '</text>';
+    });
+
+    const mobileChart = window.innerWidth <= 767;
+    series.forEach(function(s, idx) {
+      const strokeWidth = mobileChart ? (idx === 0 ? 5.4 : 4.1) : (idx === 0 ? 3.6 : 2.4);
+      const pointPairs = s.values.map(function(v, i) {
+        if (v === null) return null;
+        return x[i] + ',' + yFor(v, scale.min, scale.max, top, bottom);
+      }).filter(Boolean);
+      if (pointPairs.length) {
+        svg += '<polyline points="' + pointPairs.join(' ') + '" class="trend-line" style="stroke:' + s.color + ';stroke-width:' + strokeWidth + '"></polyline>';
+      }
+      s.values.forEach(function(v, i) {
+        if (v === null) return;
+        const r = mobileChart ? (idx === 0 ? 5.6 : 4.6) : (idx === 0 ? 4 : 3.2);
+        svg += '<circle cx="' + x[i] + '" cy="' + yFor(v, scale.min, scale.max, top, bottom) + '" r="' + r + '" class="dot" fill="' + s.color + '"></circle>';
+      });
+    });
+
+    trendChart.setAttribute('viewBox', '0 0 960 250');
+    trendChart.innerHTML = svg;
+  }
+
+  function renderAll(rows) {
+    latestParticipants = buildParticipants(rows);
+    renderStandings(latestParticipants);
+    renderParticipants(latestParticipants);
+    renderChart();
+  }
+
+  async function loadData() {
+    try {
+      const response = await fetch(DATA_URL, { cache: 'no-store' });
+      const rows = await response.json();
+      if (!Array.isArray(rows) || !rows.length) throw new Error('No rows returned');
+      renderAll(rows);
+    } catch (error) {
+      console.error('Failed to load live data:', error);
+      if (leaderboardSub) leaderboardSub.textContent = 'Unable to load live data right now.';
+      if (trendNote) trendNote.textContent = 'Live feed unavailable.';
+    }
+  }
+
+  loadData();
+  setInterval(loadData, REFRESH_MS);
+});
 </script>
 
 </body>
