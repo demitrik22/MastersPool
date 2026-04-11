@@ -1,411 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🔺 TKE 🔺 Masters Pool 2026</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#f5f5f5;
+}
+
+.hero{
+  background:#173b2c;
+  color:#fff;
+  text-align:center;
+  padding:30px;
+  border-bottom:2px solid #000;
+}
+.hero h1{margin:0;font-size:32px;}
+
+.container{
+  max-width:1100px;
+  margin:20px auto;
+  padding:0 10px;
+}
+
+/* LEADERBOARD */
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:#fff;
+  border:2px solid #000;
+}
+th{
+  background:#173b2c;
+  color:#fff;
+  padding:10px;
+}
+td{
+  padding:10px;
+  text-align:center;
+  border-bottom:1px solid #ddd;
+}
+
+/* Highlight ONLY participant cell */
+.place-1 td:first-child{
+  background:gold;
+  font-weight:700;
+}
+.place-2 td:first-child{
+  background:#d9d9d9;
+}
+.place-3 td:first-child{
+  background:#cd7f32;
+}
+
+/* PARTICIPANT CARD */
+.card{
+  background:#fff;
+  border:2px solid #000;
+  margin-top:20px;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.card-header{
+  background:#173b2c;
+  color:#fff;
+  padding:15px;
+  display:flex;
+  justify-content:space-between;
+}
+
+.score{
+  text-align:right;
+}
+.score .main{
+  font-size:28px;
+  font-weight:700;
+}
+.score .sub{
+  font-size:14px;
+}
+
+.under{color:#00ff90;}
+.over{color:#ffb3b3;}
+.even{color:#fff;}
+
+.meta{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  background:#eee;
+  text-align:center;
+}
+.meta div{padding:10px;}
+
+.small-table{
+  width:100%;
+}
+.small-table th{
+  background:#eee;
+  color:#000;
+}
+.small-table td{
+  border-bottom:1px solid #eee;
+}
+
+.score-under{color:green;}
+.score-over{color:red;}
+.score-even{color:black;}
+</style>
+</head>
+
+<body>
+
+<div class="hero">
+  <h1>🔺 TKE 🔺 Masters Pool 2026</h1>
+</div>
+
+<div class="container">
+
+  <table>
+    <thead>
+      <tr>
+        <th>Participant</th>
+        <th>R1</th>
+        <th>R2</th>
+        <th>R3</th>
+        <th>R4</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody id="leaderboard"></tbody>
+  </table>
+
+  <div id="cards"></div>
+
+</div>
+
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-  const DATA_URL = "https://script.google.com/macros/s/AKfycbwbqpGDuDYHy34TMxDbbSM37w0yFvClWmejrJGgMnCpTAPJfW1FaawDet29-WIVgSWpiw/exec";
-  const REFRESH_MS = 30000;
+const DATA_URL = "https://script.google.com/macros/s/AKfycbwbqpGDuDYHy34TMxDbbSM37w0yFvClWmejrJGgMnCpTAPJfW1FaawDet29-WIVgSWpiw/exec";
 
-  const tabs = document.querySelectorAll('.top-tab');
-  const panels = document.querySelectorAll('.tab-panel');
-  const trendChart = document.getElementById('trend-chart');
-  const trendLegend = document.getElementById('trend-legend');
-  const trendNote = document.getElementById('trend-note');
-  const standingsBody = document.getElementById('pool-standings-tbody');
-  const participantGrid = document.getElementById('participant-grid');
-  const leaderboardSub = document.querySelector('#pool-view .strip-card .card-sub');
+function parseNum(v){ return Number(v)||0; }
 
-  const participantColors = {
-    Shaun: '#174230',
-    Brian: '#a5852e',
-    Phil: '#6b7d89',
-    Caruso: '#8a5a4a',
-    Demitri: '#4e6f63',
-    Wilmar: '#7b6c54'
-  };
+function parsePar(v){
+  if(!v || v==="—" || v==="MC") return 999;
+  if(v==="E") return 0;
+  return Number(v.replace("+",""));
+}
 
-  let latestParticipants = [];
+/* 🔥 FIXED LOGIC */
+function calcTop6(participant){
+  const sorted = participant.golfers
+    .slice()
+    .sort((a,b)=>parseNum(a.total)-parseNum(b.total))
+    .slice(0,6);
 
-  tabs.forEach(function(tab) {
-    tab.addEventListener('click', function() {
-      const targetId = tab.getAttribute('data-tab-target');
-      tabs.forEach(function(t) {
-        t.classList.remove('active');
-        t.removeAttribute('aria-current');
-      });
-      panels.forEach(function(p) {
-        p.classList.remove('active');
-      });
-      tab.classList.add('active');
-      tab.setAttribute('aria-current', 'page');
-      const panel = document.getElementById(targetId);
-      if (panel) {
-        panel.classList.add('active');
-        if (targetId === 'pool-view') setTimeout(renderChart, 30);
-        setTimeout(function() {
-          panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 50);
-      }
+  let total = 0;
+
+  sorted.forEach(g=>{
+    if(g.status==="Missed Cut"){
+      if(parseNum(g.r3)===82) total+=10;
+      if(parseNum(g.r4)===82) total+=10;
+    } else {
+      const val = parsePar(g.to_par);
+      if(val<900) total+=val;
+    }
+  });
+
+  return total;
+}
+
+function parFormat(v){
+  if(v===0) return "E";
+  if(v>0) return "+"+v;
+  return v;
+}
+
+function parClass(v){
+  if(v<0) return "under";
+  if(v>0) return "over";
+  return "even";
+}
+
+async function load(){
+  const res = await fetch(DATA_URL);
+  const data = await res.json();
+
+  const map = {};
+
+  data.forEach(r=>{
+    if(!map[r.participant]){
+      map[r.participant]={
+        name:r.participant,
+        r1:r.r1p,
+        r2:r.r2p,
+        r3:r.r3p,
+        r4:r.r4p,
+        total:r.totalp,
+        golfers:[]
+      };
+    }
+
+    map[r.participant].golfers.push({
+      name:r.golfer,
+      to_par:r.to_par,
+      status:r.status,
+      r1:r.r1,
+      r2:r.r2,
+      r3:r.r3,
+      r4:r.r4,
+      total:r.total
     });
   });
 
-  function slugify(value) {
-    return String(value || '')
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '');
-  }
+  const players = Object.values(map).sort((a,b)=>a.total-b.total);
 
-  function parseNumber(value, fallback = 0) {
-    if (value === null || value === undefined || value === '') return fallback;
-    const cleaned = String(value).replace(/,/g, '').trim();
-    const num = Number(cleaned);
-    return Number.isFinite(num) ? num : fallback;
-  }
+  /* LEADERBOARD */
+  document.getElementById("leaderboard").innerHTML =
+    players.map((p,i)=>{
+      let cls = i===0?"place-1":i===1?"place-2":i===2?"place-3":"";
+      return `<tr class="${cls}">
+        <td>${p.name}</td>
+        <td>${p.r1}</td>
+        <td>${p.r2}</td>
+        <td>${p.r3}</td>
+        <td>${p.r4}</td>
+        <td>${p.total}</td>
+      </tr>`;
+    }).join("");
 
-  function parseToPar(value) {
-    const str = String(value || '').trim().toUpperCase();
-    if (!str || str === '—') return 999;
-    if (str === 'E') return 0;
-    if (str === 'MC') return 999;
-    const num = Number(str.replace('+', ''));
-    return Number.isFinite(num) ? num : 999;
-  }
+  /* CARDS */
+  document.getElementById("cards").innerHTML =
+    players.map(p=>{
+      const t6 = calcTop6(p);
 
-  function formatThru(value, status) {
-    const str = String(value || '').trim();
-    if (!str || str === '0') {
-      if (status === 'Missed Cut') return 'MC';
-      if (status === 'Scheduled') return '—';
-      return '—';
-    }
-    return str;
-  }
+      return `
+      <div class="card">
+        <div class="card-header">
+          <div>${p.name}</div>
+          <div class="score">
+            <div class="main">${p.total}</div>
+            <div class="sub ${parClass(t6)}">Top 6: ${parFormat(t6)}</div>
+          </div>
+        </div>
 
-  function scoreClass(toPar) {
-    const num = parseToPar(toPar);
-    if (num < 0) return 'score-under';
-    if (num === 0) return 'score-even';
-    return 'score-over';
-  }
+        <div class="meta">
+          <div>R1 ${p.r1}</div>
+          <div>R2 ${p.r2}</div>
+          <div>R3 ${p.r3}</div>
+          <div>R4 ${p.r4}</div>
+        </div>
 
-  function formatParTotal(num) {
-    if (!Number.isFinite(num)) return 'E';
-    if (num === 0) return 'E';
-    return num > 0 ? ('+' + num) : String(num);
-  }
+        <table class="small-table">
+          <tr>
+            <th>Golfer</th>
+            <th>R1</th>
+            <th>R2</th>
+            <th>R3</th>
+            <th>R4</th>
+            <th>Score</th>
+          </tr>
 
-  function parClassFromNumber(num) {
-    if (num === null || num === undefined) return 'even';
-    if (num < 0) return 'under';
-    if (num > 0) return 'over';
-    return 'even';
-  }
+          ${p.golfers.map(g=>`
+            <tr>
+              <td>${g.name}</td>
+              <td>${g.r1||"-"}</td>
+              <td>${g.r2||"-"}</td>
+              <td>${g.r3||"-"}</td>
+              <td>${g.r4||"-"}</td>
+              <td class="${g.to_par<0?"score-under":g.to_par>0?"score-over":"score-even"}">
+                ${g.to_par}
+              </td>
+            </tr>
+          `).join("")}
+        </table>
+      </div>
+      `;
+    }).join("");
+}
 
-  function getCountingToParTotal(participant) {
-    const countingGolfers = participant.golfers.filter(function(g) {
-      return g.counting;
-    });
-
-    let total = 0;
-    let hasValue = false;
-
-    countingGolfers.forEach(function(g) {
-      const status = String(g.status || '').trim().toLowerCase();
-
-      if (status === 'missed cut') {
-        let cutPenaltyDays = 0;
-
-        if (parseNumber(g.r3, 0) === 82) cutPenaltyDays += 1;
-        if (parseNumber(g.r4, 0) === 82) cutPenaltyDays += 1;
-
-        total += cutPenaltyDays * 10;
-        hasValue = true;
-        return;
-      }
-
-      const val = parseToPar(g.to_par);
-      if (Number.isFinite(val) && val < 900) {
-        total += val;
-        hasValue = true;
-      }
-    });
-
-    return hasValue ? total : null;
-  }
-
-  function buildParticipants(rows) {
-    const grouped = new Map();
-
-    rows.forEach(function(row) {
-      const id = row.participant_id;
-      if (!grouped.has(id)) {
-        grouped.set(id, {
-          participant_id: id,
-          participant_name: row.participant_name,
-          rank: parseNumber(row.rank, 999),
-          participant_r1: parseNumber(row.participant_r1),
-          participant_r2: parseNumber(row.participant_r2),
-          participant_r3: parseNumber(row.participant_r3),
-          participant_r4: parseNumber(row.participant_r4),
-          Cuts: parseNumber(row.Cuts),
-          adjusted_total: parseNumber(row.adjusted_total),
-          thru_total: parseNumber(row.thru_total),
-          thru_t6: parseNumber(row.thru_t6),
-          t6_remaining_holes: parseNumber(row.t6_remaining_holes),
-          golfers: []
-        });
-      }
-
-      grouped.get(id).golfers.push({
-        golfer_id: row.golfer_id,
-        golfer_name: row.golfer_name,
-        to_par: row.to_par,
-        Live_Score: row.Live_Score,
-        thru: row.thru,
-        status: row.status,
-        r1: row.r1,
-        r2: row.r2,
-        r3: row.r3,
-        r4: row.r4,
-        golfer_total: row.golfer_total
-      });
-    });
-
-    const participants = Array.from(grouped.values()).sort(function(a, b) {
-      if (a.rank !== b.rank) return a.rank - b.rank;
-      return a.adjusted_total - b.adjusted_total;
-    });
-
-    participants.forEach(function(participant) {
-      const countedIds = new Set(
-        participant.golfers
-          .slice()
-          .sort(function(a, b) {
-            return parseNumber(a.golfer_total, 9999) - parseNumber(b.golfer_total, 9999);
-          })
-          .slice(0, 6)
-          .map(function(g) {
-            return g.golfer_id;
-          })
-      );
-
-      participant.golfers.forEach(function(golfer) {
-        golfer.counting = countedIds.has(golfer.golfer_id);
-      });
-
-      participant.golfers.sort(function(a, b) {
-        return parseNumber(a.golfer_total, 9999) - parseNumber(b.golfer_total, 9999);
-      });
-    });
-
-    return participants;
-  }
-
-  function renderStandings(participants) {
-    standingsBody.innerHTML = participants.map(function(p, index) {
-      const medalClass = index === 0 ? 'place-1' : index === 1 ? 'place-2' : index === 2 ? 'place-3' : '';
-      return '<tr class="' + medalClass + '">' +
-        '<td><a href="#' + slugify(p.participant_name) + '" class="participant-name"><span class="participant-link-inner"><span>' + p.participant_name + '</span></span></a></td>' +
-        '<td>' + p.participant_r1 + '</td>' +
-        '<td>' + p.participant_r2 + '</td>' +
-        '<td>' + p.participant_r3 + '</td>' +
-        '<td>' + p.participant_r4 + '</td>' +
-        '<td>' + p.adjusted_total + '</td>' +
-      '</tr>';
-    }).join('');
-
-    if (leaderboardSub) {
-      leaderboardSub.textContent = 'Live participant standings from the official pool standings • live scoring.';
-    }
-  }
-
-  function participantSubtitle(rank) {
-    if (rank === 1) return 'Rank 1';
-    return 'Rank ' + rank;
-  }
-
-  function renderParticipants(participants) {
-    participantGrid.innerHTML = participants.map(function(p) {
-      const countingToPar = getCountingToParTotal(p);
-      const countingToParText = countingToPar === null
-        ? 'Top 6 incl. cut penalties: —'
-        : 'Top 6 incl. cut penalties: ' + formatParTotal(countingToPar);
-
-      return '<article class="card participant-card">' +
-        '<div class="participant-top">' +
-          '<div class="participant-title-row">' +
-            '<h3 id="' + slugify(p.participant_name) + '">' + p.participant_name + '</h3>' +
-            '<p>' + participantSubtitle(p.rank) + '</p>' +
-          '</div>' +
-          '<div class="scorebox">' +
-            '<span class="value">' + p.adjusted_total + '</span>' +
-            '<span class="subvalue ' + parClassFromNumber(countingToPar) + '">' + countingToParText + '</span>' +
-          '</div>' +
-        '</div>' +
-        '<div class="participant-meta">' +
-          '<div class="meta-item"><span class="meta-k">Round 1</span><span class="meta-v">' + p.participant_r1 + '</span></div>' +
-          '<div class="meta-item"><span class="meta-k">Round 2</span><span class="meta-v">' + p.participant_r2 + '</span></div>' +
-          '<div class="meta-item"><span class="meta-k">Thru T6</span><span class="meta-v">' + p.thru_t6 + '</span></div>' +
-          '<div class="meta-item"><span class="meta-k">Remaining</span><span class="meta-v">' + p.t6_remaining_holes + '</span></div>' +
-        '</div>' +
-        '<div class="participant-table-wrap">' +
-          '<table class="participant-golfers-table">' +
-            '<thead><tr><th>Golfer</th><th>Thru</th><th>R1</th><th>R2</th><th>R3</th><th>R4</th><th>Score</th><th>Total</th></tr></thead>' +
-            '<tbody>' +
-              p.golfers.map(function(g) {
-                return '<tr>' +
-                  '<td>' + g.golfer_name + (g.counting ? ' *' : '') + '</td>' +
-                  '<td>' + formatThru(g.thru, g.status) + '</td>' +
-                  '<td>' + (g.r1 || '—') + '</td>' +
-                  '<td>' + (g.r2 || '—') + '</td>' +
-                  '<td>' + (g.r3 || '—') + '</td>' +
-                  '<td>' + (g.r4 || '—') + '</td>' +
-                  '<td class="' + scoreClass(g.to_par) + '">' + (g.status === 'Missed Cut' ? 'MC' : g.to_par) + '</td>' +
-                  '<td>' + (g.golfer_total || '—') + '</td>' +
-                '</tr>';
-              }).join('') +
-            '</tbody>' +
-          '</table>' +
-        '</div>' +
-      '</article>';
-    }).join('');
-  }
-
-  function buildBehindSeries(participants) {
-    const roundKeys = ['participant_r1', 'participant_r2', 'participant_r3', 'participant_r4'];
-
-    const cumulativeTotalsByParticipant = participants.map(function(p) {
-      let running = 0;
-      return roundKeys.map(function(key) {
-        const roundValue = parseNumber(p[key], 0);
-        if (roundValue <= 0) return null;
-        running += roundValue;
-        return running;
-      });
-    });
-
-    const leaderByRound = roundKeys.map(function(_, roundIndex) {
-      const vals = cumulativeTotalsByParticipant
-        .map(function(totals) { return totals[roundIndex]; })
-        .filter(function(v) { return v !== null && v > 0; });
-      return vals.length ? Math.min.apply(null, vals) : 0;
-    });
-
-    return participants.map(function(p, participantIndex) {
-      return {
-        name: p.participant_name,
-        color: participantColors[p.participant_name] || '#4e6f63',
-        values: cumulativeTotalsByParticipant[participantIndex].map(function(total, roundIndex) {
-          return total !== null ? total - leaderByRound[roundIndex] : null;
-        })
-      };
-    });
-  }
-
-  function getScale(series) {
-    const vals = series.flatMap(function(s) {
-      return s.values.filter(function(v) { return v !== null; });
-    });
-    const max = Math.max.apply(null, vals.concat([5]));
-    return { min: 0, max: Math.ceil((max + 2) / 5) * 5 };
-  }
-
-  function yFor(value, min, max, top, bottom) {
-    if (max === min) return (top + bottom) / 2;
-    return top + ((value - min) / (max - min)) * (bottom - top);
-  }
-
-  function buildLabels(min, max) {
-    const step = max <= 20 ? 5 : max <= 40 ? 10 : max <= 80 ? 20 : 25;
-    const out = [];
-    for (let v = min; v <= max + 0.001; v += step) out.push(v);
-    if (out[out.length - 1] !== max) out.push(max);
-    return out;
-  }
-
-  function renderLegend(chartData) {
-    if (!trendLegend) return;
-    trendLegend.innerHTML = chartData.map(function(p) {
-      return '<span class="legend-item"><span class="legend-line" style="color:' + p.color + '"></span>' + p.name + '</span>';
-    }).join('');
-  }
-
-  function renderChart() {
-    if (!trendChart || !trendLegend || !trendNote || !latestParticipants.length) return;
-
-    const series = buildBehindSeries(latestParticipants);
-    const scale = getScale(series);
-    const axisLabels = buildLabels(scale.min, scale.max);
-
-    renderLegend(series);
-    trendNote.textContent = 'Cumulative strokes behind leader after R1, R2, R3, and R4. Leader = 0.';
-
-    const width = 960;
-    const height = 250;
-    const left = 72;
-    const right = 920;
-    const top = 24;
-    const bottom = 206;
-    const x = [72, 354, 636, 918];
-
-    let svg = '';
-    svg += '<rect x="0" y="0" width="' + width + '" height="' + height + '" fill="transparent"></rect>';
-    svg += '<line x1="' + left + '" y1="' + top + '" x2="' + left + '" y2="' + bottom + '" class="axis-line"></line>';
-    svg += '<line x1="' + left + '" y1="' + bottom + '" x2="' + right + '" y2="' + bottom + '" class="axis-line"></line>';
-
-    axisLabels.forEach(function(v) {
-      const y = yFor(v, scale.min, scale.max, top, bottom);
-      svg += '<line x1="' + left + '" y1="' + y + '" x2="' + right + '" y2="' + y + '" class="grid-line"></line>';
-      svg += '<text x="14" y="' + (y + 4) + '" class="axis-label">' + v + '</text>';
-    });
-
-    ['R1','R2','R3','R4'].forEach(function(r, i) {
-      svg += '<text x="' + x[i] + '" y="236" text-anchor="middle" class="round-label">' + r + '</text>';
-    });
-
-    const mobileChart = window.innerWidth <= 767;
-
-    series.forEach(function(s, idx) {
-      const strokeWidth = mobileChart ? (idx === 0 ? 5.4 : 4.1) : (idx === 0 ? 3.6 : 2.4);
-      const pointPairs = s.values.map(function(v, i) {
-        if (v === null) return null;
-        return x[i] + ',' + yFor(v, scale.min, scale.max, top, bottom);
-      }).filter(Boolean);
-
-      if (pointPairs.length) {
-        svg += '<polyline points="' + pointPairs.join(' ') + '" class="trend-line" style="stroke:' + s.color + ';stroke-width:' + strokeWidth + '"></polyline>';
-      }
-
-      s.values.forEach(function(v, i) {
-        if (v === null) return;
-        const r = mobileChart ? (idx === 0 ? 5.6 : 4.6) : (idx === 0 ? 4 : 3.2);
-        svg += '<circle cx="' + x[i] + '" cy="' + yFor(v, scale.min, scale.max, top, bottom) + '" r="' + r + '" class="dot" fill="' + s.color + '"></circle>';
-      });
-    });
-
-    trendChart.setAttribute('viewBox', '0 0 960 250');
-    trendChart.innerHTML = svg;
-  }
-
-  function renderAll(rows) {
-    latestParticipants = buildParticipants(rows);
-    renderStandings(latestParticipants);
-    renderParticipants(latestParticipants);
-    renderChart();
-  }
-
-  async function loadData() {
-    try {
-      const response = await fetch(DATA_URL, { cache: 'no-store' });
-      const rows = await response.json();
-      if (!Array.isArray(rows) || !rows.length) throw new Error('No rows returned');
-      renderAll(rows);
-    } catch (error) {
-      console.error('Failed to load live data:', error);
-      if (leaderboardSub) leaderboardSub.textContent = 'Unable to load live data right now.';
-      if (trendNote) trendNote.textContent = 'Live feed unavailable.';
-    }
-  }
-
-  loadData();
-  setInterval(loadData, REFRESH_MS);
-});
+load();
+setInterval(load,30000);
 </script>
+
+</body>
+</html>
