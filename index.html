@@ -18,6 +18,12 @@
   --line:rgba(16,42,31,.08);
   --shadow:0 12px 36px rgba(16,42,31,.07);
 }
+
+@keyframes firstPlacePulse{
+  0%,100%{ box-shadow:0 0 0 0 rgba(212,175,55,.00), inset 0 0 0 0 rgba(255,230,120,.00); }
+  50%{ box-shadow:0 0 0 4px rgba(212,175,55,.18), 0 0 22px rgba(212,175,55,.40); }
+}
+
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
@@ -46,6 +52,8 @@ body{
 }
 .hero{
   position:relative;
+  border-top:2px solid #000;
+  border-bottom:2px solid #000;
   overflow:hidden;
   background:linear-gradient(135deg,var(--green) 0%,var(--green-dark) 100%);
   color:#fff;
@@ -92,6 +100,7 @@ body{
 }
 .top-tabs{
   position:relative;
+  border:2px solid #000;
   display:flex;
   justify-content:center;
   align-items:center;
@@ -151,7 +160,7 @@ body{
 }
 .card{
   background:rgba(255,255,255,.84);
-  border:1px solid var(--border);
+  border:2px solid #000;
   border-radius:20px;
   box-shadow:var(--shadow);
   overflow:hidden;
@@ -447,6 +456,7 @@ body{
 
 .leaderboard-table{
   width:100%;
+  border:2px solid #000;
   border-collapse:collapse;
   table-layout:fixed;
 }
@@ -476,46 +486,37 @@ body{
 .leaderboard-table td:last-child,
 .leaderboard-table th:last-child{
   padding-right:12px;
-  width:17%;
+  width:12%;
 }
 .leaderboard-table tbody tr:nth-child(even) td{
   background:rgba(255,255,255,.15);
 }
 .leaderboard-table .participant-name{
-  color:#2b220f;
-  text-decoration:none;
+  color:#1a5fb4;
+  text-decoration:underline;
   font-weight:700;
 }
-.leaderboard-table .participant-name:hover{ text-decoration:underline; }
+.leaderboard-table .participant-name:hover{
+  color:#0d3f8a;
+  text-decoration:underline;
+}
 .participant-link-inner{
-  display:inline-flex;
+  display:flex;
+  justify-content:center;
   align-items:center;
-  gap:10px;
-}
-.quick-nav{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  font-size:.67rem;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  color:#6d5a20;
-  white-space:nowrap;
-}
-.quick-nav-ball{
-  font-size:.9rem;
-  line-height:1;
 }
 .place-1 td{
-  background:linear-gradient(90deg,#fffaf0,#f5e7ad) !important;
+  background:linear-gradient(90deg,#fffdf2,#ffe680) !important;
   font-weight:700;
+  animation:firstPlacePulse 1.8s ease-in-out infinite;
 }
 .place-2 td{
-  background:linear-gradient(90deg,#fbfbfb,#e3e3e3) !important;
+  background:linear-gradient(90deg,#ffffff,#d9d9d9) !important;
   font-weight:700;
 }
 .place-3 td{
-  background:linear-gradient(90deg,#fbefe7,#e8c3ad) !important;
+  background:linear-gradient(90deg,#fff4ec,#cd7f32) !important;
+  color:#2b170d;
   font-weight:700;
 }
 .place-1 td:first-child{border-left:4px solid #d4af37}
@@ -705,6 +706,7 @@ body{
 }
 .participant-golfers-table{
   width:100%;
+  border:2px solid #000;
   border-collapse:separate;
   border-spacing:0;
   table-layout:auto;
@@ -764,6 +766,7 @@ body{
 }
 .espn-board{
   min-width:860px;
+  border:2px solid #000;
   width:100%;
   border-collapse:collapse;
   background:#fff;
@@ -806,7 +809,7 @@ body{
   padding:0 14px 16px;
 }
 .rule-card{
-  border:1px solid rgba(17,50,35,.10);
+  border:2px solid #000;
   border-radius:18px;
   background:rgba(255,255,255,.92);
   padding:16px 16px 12px;
@@ -1527,6 +1530,31 @@ body{
   }
 }
 
+@media (max-width: 767px){
+  .pool-trends-section .trend-chart-wrap,
+  .trends-card-full .trend-chart-wrap{
+    height:500px !important;
+    min-height:500px !important;
+    width:100%;
+    padding:8px 8px 28px 4px !important;
+  }
+  .pool-trends-section .trend-chart,
+  .trends-card-full .trend-chart{
+    width:100%;
+    height:100% !important;
+    display:block;
+  }
+  .axis-label,.round-label{
+    font-size:13px !important;
+  }
+  .trend-legend{
+    gap:10px 16px;
+  }
+  .legend-item{
+    font-size:.86rem;
+  }
+}
+
 @media (min-width: 1024px){
   .pool-trends-section .card{
     border-radius:0;
@@ -1592,6 +1620,73 @@ body{
   }
 }
 
+
+/* Leaderboard cleanup */
+.leaderboard-card-clean{
+  background:rgba(255,255,255,.92) !important;
+  border:1px solid var(--border) !important;
+  box-shadow:0 16px 42px rgba(16,42,31,.08) !important;
+}
+.leaderboard-card-clean .card-header,
+.leaderboard-card-clean .leaderboard-wrap{
+  background:transparent !important;
+}
+.leaderboard-table{
+  background:#fff !important;
+}
+.leaderboard-table td{
+  background:#fff !important;
+  border-bottom:1px solid rgba(16,42,31,.08) !important;
+  color:#1f2a22;
+}
+.leaderboard-table tbody tr:nth-child(even) td,
+.place-1 td,
+.place-2 td,
+.place-3 td{
+  background:#fff !important;
+}
+.place-1 td:first-child{border-left:4px solid #d4af37}
+.place-2 td:first-child{border-left:4px solid #c0c0c0}
+.place-3 td:first-child{border-left:4px solid #cd7f32}
+.leaderboard-table td:first-child,
+.leaderboard-table th:first-child{
+  text-align:center !important;
+  padding-left:12px;
+}
+.leaderboard-table .participant-name{
+  color:#1a5fb4 !important;
+  text-decoration:underline !important;
+  font-weight:700;
+  display:inline-block;
+}
+.leaderboard-table .participant-name:hover{
+  color:#0d3f8a !important;
+  text-decoration:underline;
+}
+.participant-link-inner{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+
+/* final visual overrides */
+.hero,
+.top-tabs,
+.card,
+.participant-card,
+.all-golfers-card,
+.rule-card,
+.leaderboard-table,
+.participant-golfers-table,
+.espn-board{
+  border:2px solid #000 !important;
+}
+
+.place-1 td{
+  animation:firstPlacePulse 1.8s ease-in-out infinite;
+}
+
 </style>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
 </head>
@@ -1599,7 +1694,7 @@ body{
 <div class="page">
   <section class="hero full-bleed">
     <div class="hero-inner">
-      <h1>TKE Masters Pool - 2026</h1>
+      <h1>TKE Masters Pool 🔺 2026 🔺</h1>
     </div>
   </section>
 
@@ -1611,7 +1706,7 @@ body{
 
   <section id="pool-view" class="tab-panel active">
     <section class="top-grid">
-      <article class="strip-card leaderboard-card-full">
+      <article class="card leaderboard-card-full leaderboard-card-clean">
         <div class="card-header">
           <h2 class="card-title">Leaderboard</h2>
           <p class="card-sub"></p>
@@ -1625,7 +1720,7 @@ body{
                 <th>R2</th>
                 <th>R3</th>
                 <th>R4</th>
-                <th>Total Strokes</th>
+                <th>Total</th>
               </tr>
             </thead>
             <tbody id="pool-standings-tbody"></tbody>
@@ -1858,7 +1953,7 @@ document.addEventListener('DOMContentLoaded', function () {
     standingsBody.innerHTML = participants.map(function(p, index) {
       const medalClass = index === 0 ? 'place-1' : index === 1 ? 'place-2' : index === 2 ? 'place-3' : '';
       return '<tr class="' + medalClass + '">' +
-        '<td><a href="#' + slugify(p.participant_name) + '" class="participant-name"><span class="participant-link-inner"><span>' + p.participant_name + '</span><span class="quick-nav">Click here <span aria-hidden="true">→</span> <span class="quick-nav-ball" aria-hidden="true">⛳</span></span></span></a></td>' +
+        '<td><a href="#' + slugify(p.participant_name) + '" class="participant-name"><span class="participant-link-inner"><span>' + p.participant_name + '</span></span></a></td>' +
         '<td>' + p.participant_r1 + '</td>' +
         '<td>' + p.participant_r2 + '</td>' +
         '<td>' + p.participant_r3 + '</td>' +
@@ -1868,7 +1963,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }).join('');
 
     if (leaderboardSub) {
-      leaderboardSub.textContent = 'Live participant standings from the published Google Sheet feed.';
+      leaderboardSub.textContent = 'Live participant standings from the official pool standings • live scoring.';
     }
   }
 
@@ -2002,8 +2097,9 @@ document.addEventListener('DOMContentLoaded', function () {
       svg += '<text x="' + x[i] + '" y="236" text-anchor="middle" class="round-label">' + r + '</text>';
     });
 
+    const mobileChart = window.innerWidth <= 767;
     series.forEach(function(s, idx) {
-      const strokeWidth = idx === 0 ? 3.6 : 2.4;
+      const strokeWidth = mobileChart ? (idx === 0 ? 5.4 : 4.1) : (idx === 0 ? 3.6 : 2.4);
       const pointPairs = s.values.map(function(v, i) {
         if (v === null) return null;
         return x[i] + ',' + yFor(v, scale.min, scale.max, top, bottom);
@@ -2013,7 +2109,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
       s.values.forEach(function(v, i) {
         if (v === null) return;
-        const r = idx === 0 ? 4 : 3.2;
+        const r = mobileChart ? (idx === 0 ? 5.6 : 4.6) : (idx === 0 ? 4 : 3.2);
         svg += '<circle cx="' + x[i] + '" cy="' + yFor(v, scale.min, scale.max, top, bottom) + '" r="' + r + '" class="dot" fill="' + s.color + '"></circle>';
       });
     });
