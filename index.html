@@ -755,6 +755,18 @@ body{
 .participant-golfers-table th:not(:first-child){
   font-size:.83rem;
 }
+.participant-golfers-table td.counting-live{
+  background:#eaf7ea !important;
+}
+.participant-golfers-table td.counting-penalty{
+  background:#fdeaea !important;
+}
+.participant-golfers-table tbody tr:hover td.counting-live{
+  background:#dff1df !important;
+}
+.participant-golfers-table tbody tr:hover td.counting-penalty{
+  background:#f7d6d6 !important;
+}
 
 .refresh-note{
   margin:14px 3px 0;
@@ -2037,37 +2049,21 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function getCountingToParTotal(participant) {
-    const countingGolfers = participant.golfers.filter(function(g) { return g.counting; });
-    let total = 0;
-    let hasValue = false;
-
-    countingGolfers.forEach(function(g) {
-      const val = parseToPar(g.to_par);
-      if (Number.isFinite(val) && val < 900) {
-        total += val;
-        hasValue = true;
-      }
-      total += getPenaltyStrokeCount(g) * 10;
-      hasValue = true;
-    });
-
-    return hasValue ? total : null;
+    return (
+      getParticipantRoundToPar(participant, 'r1') +
+      getParticipantRoundToPar(participant, 'r2') +
+      getParticipantRoundToPar(participant, 'r3') +
+      getParticipantRoundToPar(participant, 'r4')
+    );
   }
 
   function getCountingStrokeTotal(participant) {
-    const countingGolfers = participant.golfers.filter(function(g) { return g.counting; });
-    let total = 0;
-    let hasValue = false;
-
-    countingGolfers.forEach(function(g) {
-      const val = getEffectiveGolferTotal(g);
-      if (Number.isFinite(val) && val < 9999) {
-        total += val;
-        hasValue = true;
-      }
-    });
-
-    return hasValue ? total : participant.adjusted_total;
+    return (
+      parseNumber(participant.participant_r1, 0) +
+      parseNumber(participant.participant_r2, 0) +
+      parseNumber(participant.participant_r3, 0) +
+      parseNumber(participant.participant_r4, 0)
+    );
   }
 
   function getEffectiveRoundScore(golfer, roundKey) {
@@ -2084,8 +2080,6 @@ document.addEventListener('DOMContentLoaded', function () {
         return Number.isFinite(numericValue) && numericValue > 0 ? numericValue : 0;
       }
 
-      // For leaderboard row parity, missed-cut rounds should display as full
-      // adjusted round scores (82) instead of penalty-only values (10).
       if (Number.isFinite(numericValue) && numericValue > 0) {
         return numericValue;
       }
@@ -2099,20 +2093,70 @@ document.addEventListener('DOMContentLoaded', function () {
     return 10;
   }
 
-  function applyDerivedParticipantTotals(participant) {
-    const countingGolfers = participant.golfers.filter(function(g) { return g.counting; });
-    const roundMap = {
-      participant_r1: 'r1',
-      participant_r2: 'r2',
-      participant_r3: 'r3',
-      participant_r4: 'r4'
-    };
+  function getRoundCountingIds(participant, roundKey) {
+    return new Set(
+      participant.golfers
+        .slice()
+        .sort(function(a, b) {
+          return getEffectiveRoundScore(a, roundKey) - getEffectiveRoundScore(b, roundKey);
+        })
+        .slice(0, 6)
+        .map(function(g) { return g.golfer_id; })
+    );
+  }
 
-    Object.keys(roundMap).forEach(function(participantKey) {
-      participant[participantKey] = countingGolfers.reduce(function(sum, golfer) {
-        return sum + getEffectiveRoundScore(golfer, roundMap[participantKey]);
-      }, 0);
+  function buildRoundCountingMap(participant) {
+    participant.roundCounting = {
+      r1: getRoundCountingIds(participant, 'r1'),
+      r2: getRoundCountingIds(participant, 'r2'),
+      r3: getRoundCountingIds(participant, 'r3'),
+      r4: getRoundCountingIds(participant, 'r4')
+    };
+  }
+
+  function isCountedInRound(participant, golfer, roundKey) {
+    return !!(
+      participant &&
+      participant.roundCounting &&
+      participant.roundCounting[roundKey] &&
+      participant.roundCounting[roundKey].has(golfer.golfer_id)
+    );
+  }
+
+  function isCountedAnywhere(participant, golfer) {
+    return ['r1', 'r2', 'r3', 'r4'].some(function(roundKey) {
+      return isCountedInRound(participant, golfer, roundKey);
     });
+  }
+
+  function isPenaltyRound(golfer, roundKey) {
+    if (!isPenaltyStatus(golfer.status)) return false;
+
+    const normalized = String(golfer.status || '').trim().toLowerCase();
+
+    if (normalized === 'missed cut' || normalized === 'mc' || normalized === 'cut') {
+      return roundKey === 'r3' || roundKey === 'r4';
+    }
+
+    const numericValue = parseNumber(golfer[roundKey], null);
+    return !(Number.isFinite(numericValue) && numericValue > 0);
+  }
+
+  function getParticipantRoundStrokeTotal(participant, roundKey) {
+    return participant.golfers.reduce(function(sum, golfer) {
+      return sum + (isCountedInRound(participant, golfer, roundKey)
+        ? getEffectiveRoundScore(golfer, roundKey)
+        : 0);
+    }, 0);
+  }
+
+  function applyDerivedParticipantTotals(participant) {
+    buildRoundCountingMap(participant);
+
+    participant.participant_r1 = getParticipantRoundStrokeTotal(participant, 'r1');
+    participant.participant_r2 = getParticipantRoundStrokeTotal(participant, 'r2');
+    participant.participant_r3 = getParticipantRoundStrokeTotal(participant, 'r3');
+    participant.participant_r4 = getParticipantRoundStrokeTotal(participant, 'r4');
 
     participant.adjusted_total = getCountingStrokeTotal(participant);
   }
@@ -2146,14 +2190,15 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function getParticipantRoundToPar(participant, roundKey) {
-    const countingGolfers = participant.golfers.filter(function(g) { return g.counting; });
-    return countingGolfers.reduce(function(sum, golfer) {
-      return sum + getGolferRoundToPar(golfer, roundKey);
+    return participant.golfers.reduce(function(sum, golfer) {
+      return sum + (isCountedInRound(participant, golfer, roundKey)
+        ? getGolferRoundToPar(golfer, roundKey)
+        : 0);
     }, 0);
   }
 
-  function getDisplayedScoreToPar(golfer) {
-    if (golfer.counting && isPenaltyStatus(golfer.status)) {
+  function getDisplayedScoreToPar(participant, golfer) {
+    if (isCountedAnywhere(participant, golfer) && isPenaltyStatus(golfer.status)) {
       const baseToPar = parseToPar(golfer.to_par);
       const adjustedToPar = (Number.isFinite(baseToPar) && baseToPar < 900 ? baseToPar : 0) + (getPenaltyStrokeCount(golfer) * 10);
       return formatParTotal(adjustedToPar);
@@ -2162,13 +2207,22 @@ document.addEventListener('DOMContentLoaded', function () {
     return golfer.to_par;
   }
 
-  function displayedScoreClass(golfer) {
-    if (golfer.counting && isPenaltyStatus(golfer.status)) {
+  function displayedScoreClass(participant, golfer) {
+    if (isCountedAnywhere(participant, golfer) && isPenaltyStatus(golfer.status)) {
       const baseToPar = parseToPar(golfer.to_par);
       const adjustedToPar = (Number.isFinite(baseToPar) && baseToPar < 900 ? baseToPar : 0) + (getPenaltyStrokeCount(golfer) * 10);
       return scoreClass(adjustedToPar);
     }
     return scoreClass(golfer.to_par);
+  }
+
+  function roundCellClass(participant, golfer, roundKey) {
+    if (!isCountedInRound(participant, golfer, roundKey)) return '';
+    return isPenaltyRound(golfer, roundKey) ? 'counting-penalty' : 'counting-live';
+  }
+
+  function roundCellValue(golfer, roundKey) {
+    return golfer[roundKey] || '—';
   }
 
   function parClassFromNumber(num) {
@@ -2225,16 +2279,6 @@ document.addEventListener('DOMContentLoaded', function () {
       participant.golfers.forEach(function(golfer) {
         golfer.penalty_strokes = getPenaltyStrokeCount(golfer) * 10;
         golfer.effective_total = getEffectiveGolferTotal(golfer);
-      });
-
-      const countedIds = new Set(participant.golfers
-        .slice()
-        .sort(function(a, b) { return a.effective_total - b.effective_total; })
-        .slice(0, 6)
-        .map(function(g) { return g.golfer_id; }));
-
-      participant.golfers.forEach(function(golfer) {
-        golfer.counting = countedIds.has(golfer.golfer_id);
       });
 
       participant.golfers.sort(function(a, b) {
@@ -2313,17 +2357,14 @@ document.addEventListener('DOMContentLoaded', function () {
             '<thead><tr><th>Golfer</th><th>Thru</th><th>R1</th><th>R2</th><th>R3</th><th>R4</th><th>Score</th><th>Total</th></tr></thead>' +
             '<tbody>' +
               p.golfers.map(function(g) {
-                const rowClass = g.counting
-                  ? (isPenaltyStatus(g.status) ? 'counting-penalty' : 'counting-live')
-                  : '';
-                return '<tr class="' + rowClass + '">' +
-                  '<td>' + g.golfer_name + (g.counting ? ' *' : '') + '</td>' +
+                return '<tr>' +
+                  '<td>' + g.golfer_name + '</td>' +
                   '<td>' + formatThru(g.thru, g.status) + '</td>' +
-                  '<td>' + (g.r1 || '—') + '</td>' +
-                  '<td>' + (g.r2 || '—') + '</td>' +
-                  '<td>' + (g.r3 || '—') + '</td>' +
-                  '<td>' + (g.r4 || '—') + '</td>' +
-                  '<td class="' + displayedScoreClass(g) + '">' + getDisplayedScoreToPar(g) + '</td>' +
+                  '<td class="' + roundCellClass(p, g, 'r1') + '">' + roundCellValue(g, 'r1') + '</td>' +
+                  '<td class="' + roundCellClass(p, g, 'r2') + '">' + roundCellValue(g, 'r2') + '</td>' +
+                  '<td class="' + roundCellClass(p, g, 'r3') + '">' + roundCellValue(g, 'r3') + '</td>' +
+                  '<td class="' + roundCellClass(p, g, 'r4') + '">' + roundCellValue(g, 'r4') + '</td>' +
+                  '<td class="' + displayedScoreClass(p, g) + '">' + getDisplayedScoreToPar(p, g) + '</td>' +
                   '<td>' + (Number.isFinite(g.effective_total) && g.effective_total < 9999 ? g.effective_total : (g.golfer_total || '—')) + '</td>' +
                 '</tr>';
               }).join('') +
